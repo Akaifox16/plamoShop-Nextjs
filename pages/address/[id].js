@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+// const  ConditionSelectBox = dynamic(() => import('../components/conditionSelectBox')) 
+import ConditionSelectBox from '../components/conditionSelectBox'
 const baseURL = 'http://127.0.0.1:8000/api'
 
-export default function address(){
+export default function Address(){
     const router = useRouter()
     const [addresses,setAddresses] = useState([])
     const [customer, setCustomer] = useState([])
@@ -15,19 +18,6 @@ export default function address(){
             setCustomer(res.data.customer)
     }
     useEffect(fetch,[])
-
-    function Selected(props){
-        return <input type="radio" name="addrNo" value= {props.addressNo} checked="checked"/>
-    }
-    function NonSelect(props){
-        return <input type="radio" name="addrNo" value= {props.addressNo}/>
-    }
-    function ConditionSelectBox(props){
-        if(props.selected == 1){
-            return <Selected addressNo = {props.addressNo}/>
-        }
-        return <NonSelect addressNo = {props.addressNo}/>
-    }
 
     return (
         <>
@@ -60,9 +50,11 @@ export default function address(){
                     <td> <p>{address.State}</p> </td>
                     <td> <p>{address.PostalCode}</p> </td>
                     <td> <p>{address.Country}</p> </td>
-                    <td> <Link href = {`/edit-addrss/${address.CustomerID}/${address.AddressNumber}`} >edit</Link> </td>
-                    <td>
-                    </td>
+                    <td> <Link href = {`/edit-addrss/${customer.customerNumber}/${address.AddressNumber}`} >edit</Link> </td>
+                    <td> <a type = 'button' onClick ={async e => {
+                                e.preventDefault()
+                                const res = await axios.delete(`${baseURL}/delete-address/${customer.customerNumber}/${address.AddressNumber}`)
+                            }} >del</a></td>
                 </tr>    
             )
         })}
@@ -76,7 +68,7 @@ export default function address(){
             <td></td>
             <td></td>
             <td></td>
-            <td> <Link href= {`/add-address/${customer.customerNumber}`} >add new</Link> </td>
+            <td> <Link href= {`/address/add/${customer.customerNumber}`} >add new</Link> </td>
             <td><Link href="/customers">Back</Link></td>
         </tr>
         </tfoot>
