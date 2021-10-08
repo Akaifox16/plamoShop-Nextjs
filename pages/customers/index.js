@@ -8,7 +8,6 @@ export default function customerList(){
     const fetch = async () =>{
         const response = await axios.get(`${baseURL}/customer-list`)
         setCustomers(response.data)
-        console.log(response.data)
     }
     useEffect(fetch,[])
     return (
@@ -22,19 +21,20 @@ export default function customerList(){
                 <td>contact name</td>
                 <td>phone</td>
                 <td>credit</td>
+                <td></td>
             </tr>
             </thead>
 
             <tbody>
             {customers.map(customer => {
-                return <tr>
-                    <td>{customer.customerNumber}</td>
-                    <td>{customer.customerName}</td>
-                    <td>{customer.contactLastName} {customer.contactFirstName}</td>
-                    <td>{customer.phone}</td>
-                    <td>{customer.creditLimit}</td>
-                    <Link key={customer.customerNumber} href= {`/post/${customer.customerNumber}`}>address</Link>
-                </tr>
+                return (<tr>
+                    <td><p>{customer.customerNumber}</p></td>
+                    <td><p>{customer.customerName}</p></td>
+                    <td><p>{customer.contactLastName} {customer.contactFirstName}</p></td>
+                    <td><p>{customer.phone}</p></td>
+                    <td><p>{customer.creditLimit}</p></td>
+                    <Link href= {`/address/${customer.customerNumber}`}>address</Link>
+                </tr>)
             })}
             </tbody>
         </table>
