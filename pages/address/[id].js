@@ -13,7 +13,7 @@ export default function Address(){
     const [customer, setCustomer] = useState([])
     const {id} = router.query
     const fetch = async ()=>{
-            const res = await axios.get(`${baseURL}/customer-address/${id}`)
+            const res = await axios.get(`${baseURL}/customer-address/${id}`) // GET /customer-address/$id
             setAddresses(res.data.addresses)
             setCustomer(res.data.customer)
     }
