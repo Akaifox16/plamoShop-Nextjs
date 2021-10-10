@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import router from 'next/router'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function customerList(){
     const [customers,setCustomers] = useState([])
     const fetch = async () =>{
-        const response = await axios.get(`${baseURL}/customer-list`)
+        const response = await axios.get(`${baseURL}/customers`)
         setCustomers(response.data)
     }
     useEffect(fetch,[])
@@ -27,14 +28,16 @@ export default function customerList(){
 
             <tbody>
             {customers.map(customer => {
-                return (<tr>
+                return (<>
+                <tr key={customer.customerNumber}>
                     <td><p>{customer.customerNumber}</p></td>
                     <td><p>{customer.customerName}</p></td>
                     <td><p>{customer.contactLastName} {customer.contactFirstName}</p></td>
                     <td><p>{customer.phone}</p></td>
                     <td><p>{customer.creditLimit}</p></td>
-                    <Link href= {`/address/${customer.customerNumber}`}>address</Link>
-                </tr>)
+                    <button onClick={()=>{router.push(`/address/${customer.customerNumber}`)}}>address</button>
+                </tr>
+                </>)
             })}
             </tbody>
         </table>

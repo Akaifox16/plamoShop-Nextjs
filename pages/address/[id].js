@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
-// const  ConditionSelectBox = dynamic(() => import('../components/conditionSelectBox')) 
 import ConditionSelectBox from '../components/conditionSelectBox'
 const baseURL = 'http://127.0.0.1:8000/api'
 
@@ -13,11 +11,20 @@ export default function Address(){
     const [customer, setCustomer] = useState([])
     const {id} = router.query
     const fetch = async ()=>{
-            const res = await axios.get(`${baseURL}/customer-address/${id}`) // GET /customer-address/$id
+            const res = await axios.get(`${baseURL}/address/${id}`) // GET /customer-address/$id
             setAddresses(res.data.addresses)
             setCustomer(res.data.customer)
     }
     useEffect(fetch,[])
+    const del = (id) => {
+        axios.delete(`${baseURL}/del/address/${customer.customerNumber}/${id}`)
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     return (
         <>
@@ -25,7 +32,6 @@ export default function Address(){
         <table>
             <thead>
             <tr>
-                <td>selected</td>
                 <td>No.</td>
                 <td>address</td>
                 <td>city</td>
@@ -38,9 +44,6 @@ export default function Address(){
         {addresses.map(address =>{
             return (
                 <tr>
-                    <td>
-                        <ConditionSelectBox selected = {address.selected} addressNo = {address.AddressNo}/>
-                    </td>
                     <td> <p>{address.AddressNo}</p> </td>
                     <td>
                         <p>{address.AddressLine1}</p>
@@ -50,11 +53,11 @@ export default function Address(){
                     <td> <p>{address.State}</p> </td>
                     <td> <p>{address.PostalCode}</p> </td>
                     <td> <p>{address.Country}</p> </td>
-                    <td> <Link href = {`/edit-addrss/${customer.customerNumber}/${address.AddressNumber}`} >edit</Link> </td>
-                    <td> <a type = 'button' onClick ={async e => {
+                    <td> <Link href = {`/addrss/edit/${customer.customerNumber}/${address.AddressNumber}`} >edit</Link> </td>
+                    <td> <button onClick ={async e => {
                                 e.preventDefault()
-                                const res = await axios.delete(`${baseURL}/delete-address/${customer.customerNumber}/${address.AddressNumber}`)
-                            }} >del</a></td>
+                                del(address.AddressNumber)
+                            }} >del</button></td>
                 </tr>    
             )
         })}
@@ -69,7 +72,7 @@ export default function Address(){
             <td></td>
             <td></td>
             <td> <Link href= {`/address/add/${customer.customerNumber}`} >add new</Link> </td>
-            <td><Link href="/customers">Back</Link></td>
+            <td><button type="button" onClick={() => router.back()}>back</button></td>
         </tr>
         </tfoot>
         </table>

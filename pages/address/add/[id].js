@@ -20,19 +20,24 @@ export default function AddAddress() {
     });
     const submitHandler = async (e) => {
         e.preventDefault();
-        const res = await axios.post(`${baseURL}/add-address`); // POST /add-address
-        setData({...data,
+        axios.post(`${baseURL}/create/address`,data) // POST /add-address
+        .then(res => {
+            console.log(res)
+            setData({...data,
             addressLine1: "",
             addressLine2: "",
             city: "",
             state: "",
             postCode: "",
             country: ""
+            })
+            setSubmit(true)})
+        .catch(err => {
+            console.log(err)
         })
-        setSubmit(true)
     };
     const fetch = async () => {
-        const response = await axios.get(`${baseURL}/count-address/${id}`); // GET /count-address/$id
+        const response = await axios.get(`${baseURL}/count/${id}`); // GET /count-address/$id
         setData({ ...data, addressNo: response.data.no });
         setSubmit(false)
     };
@@ -40,11 +45,11 @@ export default function AddAddress() {
 
     return (
         <>
-            <form action={submitHandler}>
+            <form onSubmit={submitHandler}>
                 <table>
                     <tr>
                         <td>
-                            <input type="text" readonly="true" value={data.addressNo} />
+                            <input type="text" readOnly={true} value={data.addressNo} />
                         </td>
                     </tr>
                     <tr>
@@ -118,7 +123,7 @@ export default function AddAddress() {
                             <input type="submit" value="Add address" />
                         </td>
                         <td>
-                            <Link href={`/address/${data.customerID}`}>Back</Link>
+                        <button type="button" onClick={() => router.back()}>back</button>
                         </td>
                     </tr>
                 </table>
