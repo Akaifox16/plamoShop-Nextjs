@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-const baseURL = "http://127.0.0.1:8000/api";
+const baseURL = "http://127.0.0.1:8000/api/address";
 
 export default function AddAddress() {
     const router = useRouter();
@@ -20,7 +20,7 @@ export default function AddAddress() {
     });
     const submitHandler = async (e) => {
         e.preventDefault();
-        axios.post(`${baseURL}/create/address`,data) // POST /add-address
+        axios.post(`${baseURL}/create`,data) // POST /add-address
         .then(res => {
             console.log(res)
             setData({...data,
