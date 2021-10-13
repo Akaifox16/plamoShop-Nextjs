@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import ConditionSelectBox from '../components/conditionSelectBox'
 const baseURL = 'http://127.0.0.1:8000/api/address'
 
 export default function Address(){

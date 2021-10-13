@@ -4,7 +4,7 @@ import Link from 'next/link'
 import router from 'next/router'
 const baseURL = 'http://127.0.0.1:8000/api'
 
-export default function customerList(){
+export default function CustomerList(){
     const [customers,setCustomers] = useState([])
     const fetch = async () =>{
         const response = await axios.get(`${baseURL}/customers`)
