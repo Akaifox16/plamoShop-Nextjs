@@ -1,43 +1,28 @@
 import Link from "next/link"
-import { useReducer,createContext,useEffect} from "react"
+import {useEffect, useState} from "react"
 
-export const LoginContext = createContext({});
 
-export default function EmployeeLogin(){
-    const [login,dispatch] = useReducer(reducer, {data:null})
-    const reducer = (login , action) =>{
-        switch(action.type){
-            case "SET":
-                return {
-                ...login,
-                data: action.payload,
-                };
-        }
-    }
-    
+function EmployeeLogin(){
+    const [token,setToken] = useState(null)
     function fetch() {
-        const data = localStorage.getItem("data");
-        if (data) {
-                dispatch({
-                type: "SET",
-                payload: JSON.parse(data),
-            })
+        const login = sessionStorage.getItem("token")
+        if(login){
+            const dat = JSON.parse(login)
+            //console.log(dat)
+            setToken(dat)
         }
     }
-    useEffect(fetch, [])
-    useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(login.data));
-    }, [login.data])
+    useEffect(fetch,[])
     
+    if(!token){
+        return <Link href='/login'><button>Login</button></Link>
+    }
+
     return (
         <>
-            <LoginContext.Provider value={{login,dispatch}}>
-            {login.data ? (
-                <Link href='/user'><button>{login.data.fistName}</button></Link>
-            ):(
-                <Link href='/login'><button>Login</button></Link>
-            )}
-            </LoginContext.Provider>
+        <Link href= {`/user/${token.employeeNumber}`} ><button>Welcome {token.firstName}</button></Link>
         </>
     )
 }
+
+export default EmployeeLogin
