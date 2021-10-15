@@ -7,11 +7,13 @@ export default function Address(){
 
     return (
         <>
-            <tr><Link href="">customers</Link></tr>
-            <tr><Link href="">stock</Link></tr> {/*for sales employee */}
-            <tr><Link href="">orders</Link></tr> {/*for sales employee */}
-            <tr><Link href="">paymentation</Link></tr> {/*for sales employee*/}
-            <tr><Link href="">employee management</Link></tr> {/*for VP sales only*/}
+            <h1></h1>
+            <div><Link href="">customers</Link></div>
+            <div><Link href="">stock</Link></div> {/*for sales employee */}
+            <div><Link href="">orders</Link></div> {/*for sales employee */}
+            <div><Link href="">paymentation</Link></div> {/*for sales employee*/}
+            <div><Link href="">employee management</Link></div> {/*for VP sales only*/}
+            <div><Link href="">logout</Link></div>
         </>
     )
 }
