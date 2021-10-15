@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import EmployeeLogin from './components/EmployeeLogin'
 import { useEffect, useState } from 'react'
-import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Container, Row, Col, Card, Navbar} from 'react-bootstrap'
 
 export default function App(){
   const [catalogs,setCatalogs] = useState([])
@@ -11,12 +11,14 @@ export default function App(){
   useEffect(fetch,[])
   
   return ( <>
-    <Container>
-      <Row>
-        <Col sm={8}><h1>Catalogs</h1></Col>
-        <Col sm={4}><EmployeeLogin/></Col>
-      </Row>
-    </Container>
+    <Navbar bg="dark" variant="dark">
+            <Container>
+            <Navbar.Brand href="/">
+                <h1>Catalog Homepage</h1>
+            </Navbar.Brand>
+            <Col sm={2}><EmployeeLogin/></Col>
+            </Container>
+    </Navbar>
     <table>
         <tbody>
           {catalogs.map(catalog => {

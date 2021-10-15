@@ -14,11 +14,11 @@ function EmployeeLogin(){
     useEffect(fetch,[])
     
     if(!token){
-        return <div className="md-2" ><Link href='/login'><Button variant="primary">Login</Button></Link></div>
+        return <div className="m-3" ><Link href='/login'><Button variant="primary" size="lg" >Login</Button></Link></div>
     }
 
     return (
-        <div className ="md-2"><Link href= {`/user/${token.employeeNumber}`} ><Button variant="primary">Welcome {token.firstName}</Button></Link></div>
+        <div className ="m-3"><Link href= {`/user/${token.employeeNumber}`} ><Button variant="primary" size="lg" >Welcome {token.firstName}</Button></Link></div>
     )
 }
 

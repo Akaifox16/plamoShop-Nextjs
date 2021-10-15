@@ -12,7 +12,6 @@ export default function Login(){
         password : ""
     })
 
-    const back = () => router.back()
     const signinClick = async e => {
         e.preventDefault()
         axios.post(`${baseURL}/login`,user)
@@ -20,7 +19,8 @@ export default function Login(){
             if(res.status == 200){
                 console.log(res.data)
                 sessionStorage.setItem("token",JSON.stringify(res.data.data))
-            }    
+            }
+            router.back()    
         })
         .catch(err => {
             console.log(err)
@@ -37,11 +37,11 @@ export default function Login(){
             console.log(err)
         })
     }
-    return(<div className="mx-5">
+    return(<div className="m-5">
     <Card className="text-center">
         <Card.Body>
-            <Card.Title>Sign in / Sign up</Card.Title>
-            <div className="mx-5" >
+            <Card.Title><h1>Sign in / Sign up</h1></Card.Title>
+            <div className="mx-md-5" >
                 <Form>
                     <FloatingLabel
                         controlId="floatingInput"
@@ -63,7 +63,7 @@ export default function Login(){
                     </FloatingLabel>
                 </Form>
             </div>
-            <div className="mx-5">
+            <div className="m-3">
                 <Button variant="success" type= "button" size = "lg" onClick= {signinClick}>Sign in</Button>{' '}
                 <Button variant="outline-success" type="button" size = "lg" onClick= {signupClick}>Sign up</Button>
             </div>
