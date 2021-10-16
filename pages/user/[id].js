@@ -60,7 +60,7 @@ export default function Address(){
                         <CustomersList id={id}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="#address">
-                        <AddressPane id={id}/>
+            
                     </Tab.Pane>
                     <Tab.Pane eventKey="#order">
 
