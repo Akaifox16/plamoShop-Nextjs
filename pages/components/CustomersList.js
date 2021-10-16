@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Button, Table} from 'react-bootstrap'
+import {Table} from 'react-bootstrap'
+import Btn from './Btn'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function CustomersList(props){
@@ -32,7 +33,7 @@ export default function CustomersList(props){
                         <td>{customer.contactLastName} {customer.contactFirstName}</td>
                         <td>{customer.phone}</td>
                         <td>{customer.points}</td>
-                        <Button >manage address</Button>
+                        <Btn variant="primary" text="manage address"/>
                     </tr>)
                 })}
                 </tbody>

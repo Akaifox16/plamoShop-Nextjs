@@ -6,7 +6,7 @@ import { Container, Row, Col, Card, Navbar} from 'react-bootstrap'
 export default function App(){
   const [catalogs,setCatalogs] = useState([])
   const fetch = async () =>{
-
+    
   }
   useEffect(fetch,[])
   
@@ -21,6 +21,7 @@ export default function App(){
     </Navbar>
     <table>
         <tbody>
+          
           {catalogs.map(catalog => {
             return (<Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src="holder.js/100px180" />

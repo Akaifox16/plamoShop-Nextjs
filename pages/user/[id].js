@@ -1,7 +1,8 @@
 import CustomersList from '../components/CustomersList'
-import {Tab, Row, Col, ListGroup, Navbar, Container} from 'react-bootstrap'
+import AddressPane from '../components/addressPane'
+import Logout from '../components/Logout'
+import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion} from 'react-bootstrap'
 import { useRouter } from 'next/router'
-import Button from '@restart/ui/esm/Button'
 
 export default function Address(){
     const router = useRouter()
@@ -12,20 +13,45 @@ export default function Address(){
         <Navbar bg="dark" variant="dark">
             <Container>
             <Navbar.Brand href="/">
-                <h1>Catalog Homepage</h1>{' '}
+                <h1>Catalog Homepage</h1>
             </Navbar.Brand>
-            <Button variant="danger">Logout</Button>
+            <Col sm={2}><Logout/></Col>
             </Container>
-        </Navbar>
+    </Navbar>
         <Tab.Container id="list-group-tabs-example" defaultActiveKey="#customer">
             <Row>
                 <Col sm={4}>
                 <ListGroup>
-                    <ListGroup.Item action href="#customer">Customers</ListGroup.Item>
-                    <ListGroup.Item action href="#stock">Stock management</ListGroup.Item>
-                    <ListGroup.Item action href="#order">orders</ListGroup.Item>
-                    <ListGroup.Item action href="#payment">paymentation</ListGroup.Item>
-                    <ListGroup.Item action href="#promote">employees management</ListGroup.Item>
+                <Accordion defaultActiveKey="0">
+                    <Accordion.Item eventKey="0">
+                        <Accordion.Header>Customers service</Accordion.Header>
+                        <Accordion.Body>
+                            <ListGroup>
+                                <ListGroup.Item action href="#customer">Customers</ListGroup.Item>
+                                <ListGroup.Item action href="#address">Addresses</ListGroup.Item>
+                                <ListGroup.Item action href="#order">Orders</ListGroup.Item>
+                                <ListGroup.Item action href="#payment">Paymentation</ListGroup.Item>
+                            </ListGroup>
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                        <Accordion.Header>Stock management</Accordion.Header>
+                        <Accordion.Body>
+                            <ListGroup>
+                                <ListGroup.Item action href="#stock">Stock-in</ListGroup.Item>
+                                <ListGroup.Item action href="#product">Product</ListGroup.Item>
+                            </ListGroup>
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="2">
+                        <Accordion.Header>Employee management</Accordion.Header>
+                        <Accordion.Body>
+                            <ListGroup>
+                                <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>
+                            </ListGroup>
+                        </Accordion.Body>
+                    </Accordion.Item>
+                </Accordion>
                 </ListGroup>
                 </Col>
                 <Col sm={8}>
@@ -33,13 +59,19 @@ export default function Address(){
                     <Tab.Pane eventKey="#customer">
                         <CustomersList id={id}/>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="#stock">
-
+                    <Tab.Pane eventKey="#address">
+                        <AddressPane id={id}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="#order">
 
                     </Tab.Pane>
                     <Tab.Pane eventKey="#payment">
+
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="#stock">
+
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="#product">
 
                     </Tab.Pane>
                     <Tab.Pane eventKey="#promote">
