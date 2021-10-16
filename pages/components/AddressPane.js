@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Table } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 const baseURL = 'http://127.0.0.1:8000/api/address'
 
 export default function AddressPane(props){
     const [addresses,setAddresses] = useState([])
     const {id} = props
-    const fetch = async ()=>{
+    useEffect(async ()=>{
         const dat = localStorage.getItem('addresses')
         if(dat){
             setAddresses(JSON.parse(dat))
@@ -15,13 +15,17 @@ export default function AddressPane(props){
             setAddresses(res.data.addresses)
             console.log(res.data.addresses)
         }
-    }
-    useEffect(fetch,[])
+    },[])
+    useEffect(async ()=>{
+        const res = await axios.get(`${baseURL}/${id}`) // GET /address/$id
+            setAddresses(res.data.addresses)
+            console.log(res.data.addresses)
+    },[id])
     useEffect(()=>{
         localStorage.setItem('addresses',JSON.stringify(addresses))
     },[addresses])
 
-    return (
+    return (<div>
         <Table striped>
             <thead>
             <tr>
@@ -32,7 +36,6 @@ export default function AddressPane(props){
                 <td>State</td>
                 <td>Zip</td>
                 <td>Country</td>
-                <td></td>
             </tr>
             </thead>
             <tbody>
@@ -40,18 +43,20 @@ export default function AddressPane(props){
                     addresses.map(address=>{
                         return(
                             <tr>
-                                <td>{address.addressNo}</td>
-                                <td>{address.addressLine1}</td>
-                                <td>{address.addressLine2}</td>
-                                <td>{address.city}</td>
-                                <td>{address.state}</td>
-                                <td>{address.postalCode}</td>
-                                <td>{address.country}</td>
+                                <td>{address.AddressNo}</td>
+                                <td>{address.AddressLine1}</td>
+                                <td>{address.AddressLine2}</td>
+                                <td>{address.City}</td>
+                                <td>{address.State}</td>
+                                <td>{address.PostalCode}</td>
+                                <td>{address.Country}</td>
                             </tr>
                         )
                     })
                 }
             </tbody>
         </Table>
+        <Button variant="Danger">Delete</Button>
+    </div>
     )
 }

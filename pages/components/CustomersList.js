@@ -34,10 +34,10 @@ export default function CustomersList(props){
 
     return (<div>
         <h4> This is yours customers</h4>
-        <hr class="style1"/>
+        <hr />
         <Row xs="auto" md={4} className="g-4">
         {customers.map((c) => (
-            <Col>
+            <Col key={c.customerNumber}>
             <Card border="info" style={{ width: '18rem' }}>
                 <Card.Body>
                 <Card.Title>{c.customerName}</Card.Title>
@@ -56,7 +56,7 @@ export default function CustomersList(props){
             </Col>
         ))}
         </Row>
-        <hr class="style1"/>
+        <hr/>
         {
             customer && <CustomerTab customerNumber={customer.customerNumber}/>
         }
