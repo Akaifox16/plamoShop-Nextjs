@@ -13,27 +13,25 @@ export default function AddressPane(props){
         }else{
             const res = await axios.get(`${baseURL}/${id}`) // GET /address/$id
             setAddresses(res.data.addresses)
-            console.log(res.data.addresses)
         }
     },[])
     useEffect(async ()=>{
         const res = await axios.get(`${baseURL}/${id}`) // GET /address/$id
             setAddresses(res.data.addresses)
-            console.log(res.data.addresses)
     },[id])
     useEffect(()=>{
         localStorage.setItem('addresses',JSON.stringify(addresses))
     },[addresses])
 
-    const del = ()=>{
-        
+    const del = async (id)=>{
+        const {data} = await axios.delete(`${baseURL}/del/${id}`);
+        setAddresses(addresses.filter(address=> address.id != data.data.id ))
     }
 
     return (<div>
         <Table striped>
             <thead>
             <tr>
-                <td>No.</td>
                 <td>Line1</td>
                 <td>Line2</td>
                 <td>City</td>
@@ -46,15 +44,15 @@ export default function AddressPane(props){
                 {
                     addresses.map(address=>{
                         return(
-                            <tr>
-                                <td>{address.AddressNo}</td>
+                            <tr key={address.id}>
                                 <td>{address.AddressLine1}</td>
                                 <td>{address.AddressLine2}</td>
                                 <td>{address.City}</td>
                                 <td>{address.State}</td>
                                 <td>{address.PostalCode}</td>
                                 <td>{address.Country}</td>
-                                <td><Button variant="danger" onClick={del}>Delete</Button></td>
+                                <td><Button variant="success" onClick={()=>{}} >Edit</Button> {' '}
+                                <Button variant="danger" onClick={()=>{del(address.id)}}>Delete</Button></td>
                             </tr>
                         )
                     })

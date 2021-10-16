@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css'
+import { SSRProvider } from '@react-aria/ssr';
 import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
@@ -6,7 +7,7 @@ function MyApp({ Component, pageProps }) {
     import("bootstrap/dist/js/bootstrap");
   }, []);
 
-  return <Component {...pageProps} />
+  return <SSRProvider><Component {...pageProps} />  </SSRProvider>
 }
 
 export default MyApp

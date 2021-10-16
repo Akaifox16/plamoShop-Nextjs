@@ -21,18 +21,8 @@ export default function Address(){
             <Row>
                 <Col sm={4}>
                 <ListGroup>
+                    <ListGroup.Item action href="#customer">Customer Service</ListGroup.Item>
                 <Accordion defaultActiveKey="0">
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>Customers service</Accordion.Header>
-                        <Accordion.Body>
-                            <ListGroup>
-                                <ListGroup.Item action href="#customer">Customer Service</ListGroup.Item>
-                                <ListGroup.Item disabled action href="#address">Addresses</ListGroup.Item>
-                                <ListGroup.Item disabled action href="#order">Orders</ListGroup.Item>
-                                <ListGroup.Item disabled action href="#payment">Paymentation</ListGroup.Item>
-                            </ListGroup>
-                        </Accordion.Body>
-                    </Accordion.Item>
                     <Accordion.Item eventKey="1">
                         <Accordion.Header>Stock management</Accordion.Header>
                         <Accordion.Body>
@@ -42,30 +32,14 @@ export default function Address(){
                             </ListGroup>
                         </Accordion.Body>
                     </Accordion.Item>
-                    <Accordion.Item eventKey="2">
-                        <Accordion.Header>Employee management</Accordion.Header>
-                        <Accordion.Body>
-                            <ListGroup>
-                                <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>
-                            </ListGroup>
-                        </Accordion.Body>
-                    </Accordion.Item>
                 </Accordion>
+                    <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>
                 </ListGroup>
                 </Col>
                 <Col sm={8}>
                 <Tab.Content>
                     <Tab.Pane eventKey="#customer">
                         <CustomersList id={id}/>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="#address">
-                        
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="#order">
-
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="#payment">
-
                     </Tab.Pane>
                     <Tab.Pane eventKey="#stock">
 

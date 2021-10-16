@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
 import CustomerTab from './CustomerTab'
 const baseURL = 'http://127.0.0.1:8000/api'
