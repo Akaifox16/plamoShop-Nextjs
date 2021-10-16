@@ -11,17 +11,20 @@ export default function Login(){
         employeeNumber: 0,
         password : ""
     })
-    const [success,setSuccess]= useState({success: false, show: false})
+    const [alert,setAlert]= useState({success: false, show: false, message: ""})
 
     const signinClick = async e => {
         e.preventDefault()
         axios.post(`${baseURL}/login`,user)
         .then(res => {
             if(res.status == 200){
-                console.log(res.data)
-                sessionStorage.setItem("token",JSON.stringify(res.data.data))
+                if(res.data.success){
+                    sessionStorage.setItem("token",JSON.stringify(res.data.data))
+                    router.back()    
+                }else{
+                    setAlert({...alert, show:true, success:false, message: res.data.message})
+                }
             }
-            router.back()    
         })
         .catch(err => {
             console.log(err)
@@ -31,23 +34,21 @@ export default function Login(){
         e.preventDefault()
         axios.post(`${baseURL}/signup`,user)
         .then(res => {
-            console.log(res)
-            setSuccess({...success,show:true, success:res.data.success})
+            setAlert({...alert, show:true, success:res.data.success, message: "you have success register"})
         })
         .catch(err => {
-            console.log(err)
-            setSuccess({...success, show:true, success:false})
+            setAlert({...alert, show:true, success:false, message: "can't register this account , pls check employee number or already been used"})
         })
     }
     return(<div className="m-5">
     {
-        success.show && success.success &&<Alert  variant="success">
-        you have succcess register
+        alert.show && alert.success &&<Alert  variant="success">
+        {alert.message}
         </Alert>
     }
     {
-        success.show && !success.success && <Alert  variant="danger">
-        can't register this account
+        alert.show && !alert.success && <Alert  variant="danger">
+        {alert.message}
         </Alert>
     }
     <Card className="text-center">

@@ -59,7 +59,7 @@ export default function AddressPane(props){
                 }
             </tbody>
         </Table>
-        
+        <Button variant="primary" size="lg">Add</Button>
     </div>
     )
 }
