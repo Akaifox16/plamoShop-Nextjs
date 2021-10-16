@@ -1,5 +1,4 @@
 import CustomersList from '../components/CustomersList'
-import AddressPane from '../components/addressPane'
 import Logout from '../components/Logout'
 import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion} from 'react-bootstrap'
 import { useRouter } from 'next/router'
@@ -13,11 +12,11 @@ export default function Address(){
         <Navbar bg="dark" variant="dark">
             <Container>
             <Navbar.Brand href="/">
-                <h1>Catalog Homepage</h1>
+                <h1>7-lnw-JoanSalad</h1>
             </Navbar.Brand>
             <Col sm={2}><Logout/></Col>
             </Container>
-    </Navbar>
+        </Navbar>
         <Tab.Container id="list-group-tabs-example" defaultActiveKey="#customer">
             <Row>
                 <Col sm={4}>
@@ -27,10 +26,10 @@ export default function Address(){
                         <Accordion.Header>Customers service</Accordion.Header>
                         <Accordion.Body>
                             <ListGroup>
-                                <ListGroup.Item action href="#customer">Customers</ListGroup.Item>
-                                <ListGroup.Item action href="#address">Addresses</ListGroup.Item>
-                                <ListGroup.Item action href="#order">Orders</ListGroup.Item>
-                                <ListGroup.Item action href="#payment">Paymentation</ListGroup.Item>
+                                <ListGroup.Item action href="#customer">Customer Service</ListGroup.Item>
+                                <ListGroup.Item disabled action href="#address">Addresses</ListGroup.Item>
+                                <ListGroup.Item disabled action href="#order">Orders</ListGroup.Item>
+                                <ListGroup.Item disabled action href="#payment">Paymentation</ListGroup.Item>
                             </ListGroup>
                         </Accordion.Body>
                     </Accordion.Item>
@@ -60,7 +59,7 @@ export default function Address(){
                         <CustomersList id={id}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="#address">
-            
+                        
                     </Tab.Pane>
                     <Tab.Pane eventKey="#order">
 
