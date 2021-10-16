@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { Form, FloatingLabel, Card, Button} from "react-bootstrap"
+import { Form, FloatingLabel, Card, Button, Alert} from "react-bootstrap"
 
 const baseURL = 'http://127.0.0.1:8000/api'
 
@@ -11,6 +11,7 @@ export default function Login(){
         employeeNumber: 0,
         password : ""
     })
+    const [success,setSuccess]= useState({success: false, show: false})
 
     const signinClick = async e => {
         e.preventDefault()
@@ -31,13 +32,24 @@ export default function Login(){
         axios.post(`${baseURL}/signup`,user)
         .then(res => {
             console.log(res)
-
+            setSuccess({...success,show:true, success:res.data.success})
         })
         .catch(err => {
             console.log(err)
+            setSuccess({...success, show:true, success:false})
         })
     }
     return(<div className="m-5">
+    {
+        success.show && success.success &&<Alert  variant="success">
+        you have succcess register
+        </Alert>
+    }
+    {
+        success.show && !success.success && <Alert  variant="danger">
+        can't register this account
+        </Alert>
+    }
     <Card className="text-center">
         <Card.Body>
             <Card.Title><h1>Sign in / Sign up</h1></Card.Title>

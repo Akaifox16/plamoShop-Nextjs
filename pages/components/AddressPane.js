@@ -25,6 +25,10 @@ export default function AddressPane(props){
         localStorage.setItem('addresses',JSON.stringify(addresses))
     },[addresses])
 
+    const del = ()=>{
+        
+    }
+
     return (<div>
         <Table striped>
             <thead>
@@ -50,13 +54,14 @@ export default function AddressPane(props){
                                 <td>{address.State}</td>
                                 <td>{address.PostalCode}</td>
                                 <td>{address.Country}</td>
+                                <td><Button variant="danger" onClick={del}>Delete</Button></td>
                             </tr>
                         )
                     })
                 }
             </tbody>
         </Table>
-        <Button variant="Danger">Delete</Button>
+        
     </div>
     )
 }
