@@ -1,15 +1,18 @@
 import CustomersList from '../components/CustomersList'
+import { SSRProvider } from '@react-aria/ssr'
 import Logout from '../components/Logout'
 import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion} from 'react-bootstrap'
-import { useRouter } from 'next/router'
 import Employeelist from '../components/EmployeeMgmt'
+import {useEffect, useState } from 'react'
 
 export default function Address(){
-    const router = useRouter()
-    const {id} = router.query
-
+    const [user, setUser] = useState({employeeNumber: 0, jobTitle: ""})
+    useEffect(()=>{
+        setUser(JSON.parse(sessionStorage.getItem("token")))
+    },[])
+    console.log(user)
     return (
-        <>
+        <SSRProvider>
         <Navbar bg="dark" variant="dark">
             <Container>
             <Navbar.Brand href="/">
@@ -34,13 +37,13 @@ export default function Address(){
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
-                    <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>
+                    {user.jobTitle === "VP Sales" && <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>}
                 </ListGroup>
                 </Col>
                 <Col sm={8}>
                 <Tab.Content>
                     <Tab.Pane eventKey="#customer">
-                        <CustomersList id={id}/>
+                        <CustomersList id={user.employeeNumber}/>
                     </Tab.Pane>
                     <Tab.Pane eventKey="#stock">
 
@@ -49,12 +52,12 @@ export default function Address(){
 
                     </Tab.Pane>
                     <Tab.Pane eventKey="#promote">
-                        <Employeelist id={id}/>
+                        <Employeelist id={user.employeeNumber}/>
 
                     </Tab.Pane>
                 </Tab.Content>
                 </Col>
             </Row>
         </Tab.Container>
-    </>)
+    </SSRProvider>)
 }
