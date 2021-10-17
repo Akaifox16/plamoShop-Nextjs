@@ -2,6 +2,7 @@ import CustomersList from '../components/CustomersList'
 import Logout from '../components/Logout'
 import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion} from 'react-bootstrap'
 import { useRouter } from 'next/router'
+import Employeelist from '../components/EmployeeMgmt'
 
 export default function Address(){
     const router = useRouter()
@@ -48,6 +49,7 @@ export default function Address(){
 
                     </Tab.Pane>
                     <Tab.Pane eventKey="#promote">
+                        <Employeelist id={id}/>
 
                     </Tab.Pane>
                 </Tab.Content>
