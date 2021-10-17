@@ -5,7 +5,7 @@ const baseURL = 'http://127.0.0.1:8000/api/address'
 
 export default function AddressPane(props){
     const [addresses,setAddresses] = useState([])
-    const {id} = props
+    const {id, setKey, setItem, setType} = props
     useEffect(async ()=>{
         const dat = localStorage.getItem('addresses')
         if(dat){
@@ -51,7 +51,12 @@ export default function AddressPane(props){
                                 <td>{address.State}</td>
                                 <td>{address.PostalCode}</td>
                                 <td>{address.Country}</td>
-                                <td><Button variant="success" onClick={()=>{}} >Edit</Button> {' '}
+                                <td><Button variant="success" onClick={
+                                    ()=>{
+                                        setKey('address')
+                                        setItem(address.id)
+                                        setType('edit')
+                                }} >Edit</Button> {' '}
                                 <Button variant="danger" onClick={()=>{del(address.id)}}>Delete</Button></td>
                             </tr>
                         )
@@ -59,7 +64,12 @@ export default function AddressPane(props){
                 }
             </tbody>
         </Table>
-        <Button variant="primary" size="lg">Add</Button>
+        <Button variant="primary" size="lg" onClick={
+            ()=>{
+                setKey('address')
+                setType('add')
+            }
+        }>Add</Button>
     </div>
     )
 }
