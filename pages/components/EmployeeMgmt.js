@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
-import EmployeeTab from './EmployeeTab'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function Employeelist(props){
@@ -31,8 +30,16 @@ export default function Employeelist(props){
         }
         const data = {employeeNumber:id, jobtitle:Job}
         await axios.post(`${baseURL}/promote`,data)
-        const response = await axios.get(`${baseURL}/employees`)
-        setEmployees(response.data)
+        const response = await axios.get(`${baseURL}/employee/${id}`)
+        let newEmployees =[]
+        employees.forEach(employee=>{
+            if(employee.employeeNumber == id){
+                newEmployees = [...newEmployees,response.data]
+            }else{
+                newEmployees = [...newEmployees,employee]
+            }
+        })
+        setEmployees(newEmployees)
     }
 
     useEffect(fetch,[])
