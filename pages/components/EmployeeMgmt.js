@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
 import EmployeeTab from './EmployeeTab'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function Employeelist(props){
+    const router = useRouter()
     const [employees,setEmployees] = useState([])
     const [employee,setEmployee] = useState()
     const {id} = props
@@ -20,6 +22,17 @@ export default function Employeelist(props){
         if(dat1){
             setEmployee(JSON.parse(dat1))
         }
+    }
+
+    const promote = async (id,jobTitle) => {
+        let Job = "Sales Rep"
+        if(jobTitle === 'Sales Rep'){
+            Job = "Manager"
+        }
+        const data = {employeeNumber:id, jobtitle:Job}
+        await axios.post(`${baseURL}/promote`,data)
+        const response = await axios.get(`${baseURL}/employees`)
+        setEmployees(response.data)
     }
 
     useEffect(fetch,[])
@@ -40,15 +53,17 @@ export default function Employeelist(props){
                 <Card.Body>
                 <Card.Title>{c.firstName}</Card.Title>
                 <Card.Text>
-                    Email : {c.email} 
+                    ID : {c.employeeNumber} <br></br>
+                    Email : {c.email}
                 </Card.Text>
                 <ListGroup className="list-group-flush">
                     <ListGroupItem>Jobtitle : {c.jobTitle}</ListGroupItem>
                     <ListGroupItem>Boss : {c.reportsTo}</ListGroupItem>
                 </ListGroup>
-                <Button variant="outline-primary" onClick={
-                    e => {setEmployee(c)}
-                }>select</Button>
+                <Button variant="outline-primary" onClick={()=>{
+                    promote(c.employeeNumber,c.jobTitle)
+                }
+                }>{c.jobTitle== "Sales Rep" ?"Promote":"Demote"}</Button>
                 </Card.Body>
             </Card>
             </Col>
