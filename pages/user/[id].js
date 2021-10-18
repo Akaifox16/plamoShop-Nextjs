@@ -47,7 +47,9 @@ export default function Address(){
                         </Accordion.Item>
                     </Accordion>
                         {job === "VP Sales" && <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>}
+                        <ListGroup.Item action href="#payment">Submit Payment</ListGroup.Item>
                     </ListGroup>
+                    
                     </Col>
                     <Col sm={8}>
                     <Tab.Content>
@@ -62,6 +64,9 @@ export default function Address(){
                         </Tab.Pane>
                         <Tab.Pane eventKey="#promote">
                             {job === "VP Sales" && <Employeelist />}
+                        </Tab.Pane>
+                        <Tab.Pane eventKey="#payment">
+                            <a>ควย</a>
                         </Tab.Pane>
                     </Tab.Content>
                     </Col>
