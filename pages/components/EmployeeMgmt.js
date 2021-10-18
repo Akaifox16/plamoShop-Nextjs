@@ -1,25 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
 const baseURL = 'http://127.0.0.1:8000/api'
 
-export default function Employeelist(props){
-    const router = useRouter()
+import { UserContext } from '../user/[id]'
+
+export default function Employeelist(){
     const [employees,setEmployees] = useState([])
-    const [employee,setEmployee] = useState()
-    const {id} = props
-    const fetch = async () =>{
+    const id = useContext(UserContext)
+    const fetch = () =>{
         const dat = localStorage.getItem('employees')
         if(dat){
             setEmployees(JSON.parse(dat))
         }else{
-            const response = await axios.get(`${baseURL}/employees`)
-            setEmployees(response.data)
-        }
-        const dat1 = localStorage.getItem('employee')
-        if(dat1){
-            setEmployee(JSON.parse(dat1))
+            axios.get(`${baseURL}/employees`)
+            .then(response => {
+                setEmployees(response.data)
+            })
         }
     }
 
@@ -46,9 +43,6 @@ export default function Employeelist(props){
     useEffect(()=>{
         localStorage.setItem('employees',JSON.stringify(employees))
     },[employees])
-    useEffect(()=>{
-        localStorage.setItem('employee',JSON.stringify(employee))
-    },[employee])
 
     return (<div>
         <h4> This is yours employees</h4>
@@ -77,8 +71,5 @@ export default function Employeelist(props){
         ))}
         </Row>
         <hr/>
-        {
-            employee && <EmployeeTab employeeNumber={employee.employeeNumber}/>
-        }
     </div>)
 }

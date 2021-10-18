@@ -1,28 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
 import CustomerTab from './CustomerTab'
 const baseURL = 'http://127.0.0.1:8000/api'
 
-export default function CustomersList(props){
-    const [customers,setCustomers] = useState([])
-    const [customer,setCustomer] = useState()
-    const {id} = props
-    const fetch = async () =>{
-        const dat = localStorage.getItem('customers')
-        if(dat){
-            setCustomers(JSON.parse(dat))
-        }else{
-            const response = await axios.get(`${baseURL}/customers/${id}`)
-            setCustomers(response.data)
-        }
-        const dat1 = localStorage.getItem('customer')
-        if(dat1){
-            setCustomer(JSON.parse(dat1))
-        }
-    }
+import { UserContext } from '../user/[id]'
 
-    useEffect(fetch,[])
+export default function CustomersList(){
+    const [customers,setCustomers] = useState([])
+    const [customer,setCustomer] = useState(null)
+    const id = useContext(UserContext)
+
+    useEffect(()=>{
+        axios.get(`${baseURL}/customers/${id}`)
+        .then(response => setCustomers(response.data))
+    },[id])
     useEffect(()=>{
         localStorage.setItem('customers',JSON.stringify(customers))
     },[customers])
@@ -47,7 +39,7 @@ export default function CustomersList(props){
                     <ListGroupItem>Pts : {c.points}</ListGroupItem>
                 </ListGroup>
                 <Button variant="outline-primary" onClick={
-                    e => {setCustomer(c)}
+                    () => {setCustomer(c)}
                 }>select</Button>
                 </Card.Body>
             </Card>

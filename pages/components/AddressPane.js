@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { Table, Button } from 'react-bootstrap'
+import { ItemContext } from './CustomerTab'
 const baseURL = 'http://127.0.0.1:8000/api/address'
+
 
 export default function AddressPane(props){
     const [addresses,setAddresses] = useState([])
-    const {id, setKey, setItem, setType} = props
+    const {id, setKey, setType} = props
+    const {setItem} = useContext(ItemContext)
     useEffect(async ()=>{
         const dat = localStorage.getItem('addresses')
         if(dat){
@@ -15,17 +18,17 @@ export default function AddressPane(props){
             setAddresses(res.data.addresses)
         }
     },[])
-    useEffect(async ()=>{
-        const res = await axios.get(`${baseURL}/${id}`) // GET /address/$id
-            setAddresses(res.data.addresses)
+    useEffect(()=>{
+        axios.get(`${baseURL}/${id}`) // GET /address/$id
+        .then(res => {setAddresses(res.data.addresses)})    
     },[id])
     useEffect(()=>{
         localStorage.setItem('addresses',JSON.stringify(addresses))
     },[addresses])
 
-    const del = async (id)=>{
-        const {data} = await axios.delete(`${baseURL}/del/${id}`);
-        setAddresses(addresses.filter(address=> address.id != data.data.id ))
+    const del = (id)=>{
+        axios.delete(`${baseURL}/del/${id}`)
+        .then(res => {setAddresses(addresses.filter(address=> address.id != res.data.data.id ))})
     }
 
     return (<div>
@@ -68,6 +71,7 @@ export default function AddressPane(props){
             ()=>{
                 setKey('address')
                 setType('add')
+                setItem(0)
             }
         }>Add</Button>
     </div>
