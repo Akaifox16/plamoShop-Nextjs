@@ -1,17 +1,18 @@
-import { useState, useEffect, createContext} from 'react'
+import { useState, useEffect, createContext, useContext} from 'react'
 import axios from 'axios'
 import { Table, Button, Offcanvas } from 'react-bootstrap'
 import AddressEditForm from './AddressEditForm'
 import AddressAddForm from './AddressAddForm'
 const baseURL = 'http://127.0.0.1:8000/api/address'
 
+import { CustomerContext } from './CustomersList'
 export const AddressContext = createContext()
 
-export default function AddressPane(props){
-    const {id} = props
+export default function AddressPane(){
+    const {customer} = useContext(CustomerContext)
     const [addresses,setAddresses] = useState([])
     const [selected,setSelect] = useState({
-        customerID:id,
+        customerID: customer.customerNumber,
         id: 0,
         addressLine1: "",
         addressLine2: "",
@@ -28,14 +29,17 @@ export default function AddressPane(props){
         if(dat){
             setAddresses(JSON.parse(dat))
         }else{
-            const res = await axios.get(`${baseURL}/${id}`) // GET /address/$id
+            const res = await axios.get(`${baseURL}/${customer.customerNumber}`) // GET /address/$id
             setAddresses(res.data.addresses)
         }
     },[])
+
     useEffect(()=>{
-        axios.get(`${baseURL}/${id}`) // GET /address/$id
+        setSelect({...selected,customerID:customer.customerNumber})
+        axios.get(`${baseURL}/${customer.customerNumber}`) // GET /address/$id
         .then(res => {setAddresses(res.data.addresses)})    
-    },[id])
+    },[customer.customerNumber])
+    
     useEffect(()=>{
         localStorage.setItem('addresses',JSON.stringify(addresses))
     },[addresses])
