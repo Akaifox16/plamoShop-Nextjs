@@ -1,12 +1,17 @@
 import { useState, useEffect} from 'react'
 import axios from 'axios'
-import { Table, Button } from 'react-bootstrap'
+import { Table, Button, Offcanvas } from 'react-bootstrap'
+import AddressEditForm from './AddressEditForm'
+import AddressAddForm from './AddressAddForm'
 const baseURL = 'http://127.0.0.1:8000/api/address'
 
 
 export default function AddressPane(props){
     const [addresses,setAddresses] = useState([])
-    const {id, setKey, setType} = props
+    const [selected,setSelect] = useState(0)
+    const [method,setMethod] = useState()
+    const [show, setShow] = useState(false);
+    const {id} = props
     
     useEffect(async ()=>{
         const dat = localStorage.getItem('addresses')
@@ -55,9 +60,10 @@ export default function AddressPane(props){
                                 <td>{address.Country}</td>
                                 <td><Button variant="success" onClick={
                                     ()=>{
-                                        setKey('address')
-                                        setType('edit')
-                                        localStorage.setItem("selectedAddress",address.id)
+                                        setShow(true)
+                                        setMethod('Edit')
+                                        setSelect(address.id)
+                                        console.log(selected)
                                 }} >Edit</Button> {' '}
                                 <Button variant="danger" onClick={()=>{del(address.id)}}>Delete</Button></td>
                             </tr>
@@ -68,10 +74,20 @@ export default function AddressPane(props){
         </Table>
         <Button variant="primary" size="lg" onClick={
             ()=>{
-                setKey('address')
-                setType('add')
             }
         }>Add</Button>
+        <Offcanvas show={show} onHide={()=>{
+            setShow(false)
+            setMethod()
+            setSelect(0)
+        }} placement='end' >
+            <Offcanvas.Header closeButton>
+            <Offcanvas.Title>{method} address</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+                {method ? method == 'Edit' ? <AddressEditForm id={selected}/>:<AddressAddForm id={selected}/> : <></>}
+            </Offcanvas.Body>
+        </Offcanvas>
     </div>
     )
 }

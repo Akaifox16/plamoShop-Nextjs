@@ -9,6 +9,7 @@ import { UserContext } from '../user/[id]'
 export default function CustomersList(){
     const [customers,setCustomers] = useState([])
     const [customer,setCustomer] = useState(null)
+    const btnText = {selected: 'selected',select: 'select'}
     const id = useContext(UserContext)
 
     useEffect(()=>{
@@ -22,8 +23,8 @@ export default function CustomersList(){
         localStorage.setItem('customer',JSON.stringify(customer))
     },[customer])
 
-    return (<div>
-        <h4> This is yours customers</h4>
+    return (<div className='m-4'>
+        <h3> This is yours customers</h3>
         <hr />
         <Row xs="auto" md={4} className="g-4">
         {customers.map((c) => (
@@ -38,9 +39,15 @@ export default function CustomersList(){
                     <ListGroupItem>Phone : {c.phone}</ListGroupItem>
                     <ListGroupItem>Pts : {c.points}</ListGroupItem>
                 </ListGroup>
-                <Button variant="outline-primary" onClick={
-                    () => {setCustomer(c)}
-                }>select</Button>
+                <Button variant={customer ? 
+                c.customerNumber == customer.customerNumber ? 
+                "primary" : "outline-primary"
+                : "outline-primary"} onClick={
+                    () => {
+                        setCustomer(c) 
+                    }}>
+                        {customer ? c.customerNumber == customer.customerNumber ? btnText.selected:btnText.select:btnText.select}
+                </Button>
                 </Card.Body>
             </Card>
             </Col>

@@ -4,9 +4,7 @@ import { Form, Row, Button, Col } from "react-bootstrap";
 const baseURL = "http://127.0.0.1:8000/api/address";
 
 export default function AddressEditForm(props) {
-    const {id} = props
     const [data, setData] = useState({
-        id: id,
         addressLine1: "",
         addressLine2: "",
         addressNo: 0,
@@ -18,7 +16,7 @@ export default function AddressEditForm(props) {
     
     const submitHandler = (e) => {
         e.preventDefault();
-        axios.patch(`${baseURL}/edit/${id}`,data) // POST /add-address
+        axios.patch(`${baseURL}/edit/${props.id}`,data) // PATCH /edit/{id}
         .then(res => {
             console.log(res)
             setData({...data,
@@ -29,14 +27,14 @@ export default function AddressEditForm(props) {
             postCode: "",
             country: ""
             })
-            setSubmit(true)})
+        })
         .catch(err => {
             console.log(err)
         })
     }
 
     useEffect(()=>{
-        axios.get(`${baseURL}/edit/${id}`)
+        axios.get(`${baseURL}/edit/${props.id}`)
         .then(response => {
             setData({
                 ...data,
@@ -50,10 +48,10 @@ export default function AddressEditForm(props) {
             })
         })
         .catch(err => console.log(err))
-    },[])
+    },[props.id])
 
     return (
-    <Form onSubmit={submitHandler}>
+    <Form>
         <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>Address No.</Form.Label>
             <Form.Control value={data.addressNo} placeholder="address No." readOnly/>
@@ -103,7 +101,7 @@ export default function AddressEditForm(props) {
             </Form.Group>
         </Row>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" onClick={submitHandler}>
             Submit
         </Button>
     </Form>
