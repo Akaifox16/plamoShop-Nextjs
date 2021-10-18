@@ -4,6 +4,7 @@ import Logout from '../components/Logout'
 import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion} from 'react-bootstrap'
 import Employeelist from '../components/EmployeeMgmt'
 import {createContext, useEffect, useState } from 'react'
+import Submitpayment from '../components/Submitpayment'
 
 export const UserContext = createContext({})
 
