@@ -14,7 +14,6 @@ export default function Address(){
     useEffect(()=>{
         const currentUser = JSON.parse(sessionStorage.getItem("token"))
         if(currentUser !== undefined){
-            //console.log(currentUser)
             setUser(currentUser.employeeNumber)
             setJob(currentUser.jobTitle)
         }

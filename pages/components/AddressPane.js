@@ -1,17 +1,27 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect, createContext} from 'react'
 import axios from 'axios'
 import { Table, Button, Offcanvas } from 'react-bootstrap'
 import AddressEditForm from './AddressEditForm'
 import AddressAddForm from './AddressAddForm'
 const baseURL = 'http://127.0.0.1:8000/api/address'
 
+export const AddressContext = createContext()
 
 export default function AddressPane(props){
+    const {id} = props
     const [addresses,setAddresses] = useState([])
-    const [selected,setSelect] = useState(0)
+    const [selected,setSelect] = useState({
+        customerID:id,
+        id: 0,
+        addressLine1: "",
+        addressLine2: "",
+        addressNo: 0,
+        city: "",
+        state: "",
+        postCode: "",
+        country: ""})
     const [method,setMethod] = useState()
     const [show, setShow] = useState(false);
-    const {id} = props
     
     useEffect(async ()=>{
         const dat = localStorage.getItem('addresses')
@@ -62,8 +72,16 @@ export default function AddressPane(props){
                                     ()=>{
                                         setShow(true)
                                         setMethod('Edit')
-                                        setSelect(address.id)
-                                        console.log(selected)
+                                        setSelect({
+                                            id: address.id,
+                                            addressLine1: address.AddressLine1,
+                                            addressLine2: address.AddressLine2,
+                                            addressNo: address.AddressNo,
+                                            city: address.City,
+                                            state: address.State,
+                                            postCode: address.PostalCode,
+                                            country: address.Country
+                                        })
                                 }} >Edit</Button> {' '}
                                 <Button variant="danger" onClick={()=>{del(address.id)}}>Delete</Button></td>
                             </tr>
@@ -74,20 +92,23 @@ export default function AddressPane(props){
         </Table>
         <Button variant="primary" size="lg" onClick={
             ()=>{
+                setShow(true)
+                setMethod('Add')
             }
         }>Add</Button>
-        <Offcanvas show={show} onHide={()=>{
-            setShow(false)
-            setMethod()
-            setSelect(0)
-        }} placement='end' >
-            <Offcanvas.Header closeButton>
-            <Offcanvas.Title>{method} address</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-                {method ? method == 'Edit' ? <AddressEditForm id={selected}/>:<AddressAddForm id={selected}/> : <></>}
-            </Offcanvas.Body>
-        </Offcanvas>
+        <AddressContext.Provider value={{addresses,selected,setShow,setSelect,setAddresses}}>
+            <Offcanvas show={show} onHide={()=>{
+                setShow(false)
+                setMethod()
+            }} placement='end' >
+                <Offcanvas.Header closeButton>
+                <Offcanvas.Title>{method} address</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    {method ? method == 'Edit' ? <AddressEditForm />:<AddressAddForm /> : <></>}
+                </Offcanvas.Body>
+            </Offcanvas>
+        </AddressContext.Provider>
     </div>
     )
 }
