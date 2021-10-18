@@ -1,14 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
-import { ItemContext } from "./CustomerTab";
 import { Form, Row, Button, Col } from "react-bootstrap";
 const baseURL = "http://127.0.0.1:8000/api/address";
 
-export default function AddressForm() {
-    const { id, type } = useContext(ItemContext)
-    const [submit,setSubmit] = useState(false)
+export default function AddressAddForm() {
     const [data, setData] = useState({
-        id: id,
+        id: 0,
         addressLine1: "",
         addressLine2: "",
         addressNo: 0,
@@ -17,62 +14,9 @@ export default function AddressForm() {
         postCode: "",
         country: ""
     })
-    
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        axios.post(`${baseURL}/create`,data) // POST /add-address
-        .then(res => {
-            console.log(res)
-            setData({...data,
-            addressLine1: "",
-            addressLine2: "",
-            city: "",
-            state: "",
-            postCode: "",
-            country: ""
-            })
-            setSubmit(true)})
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
-    useEffect(()=>{
-        axios.get(`${baseURL}/count/${id}`)
-        .then(response => {
-            setData({ ...data, addressNo: response.data.no });
-            setSubmit(false)
-        })
-        .catch(console.error())
-    }, [submit])
-    useEffect(async ()=>{
-        if(type == "edit"){
-            axios.get(`${baseURL}/edit/${id}`)
-            .then(response => {
-                setData({
-                    ...data,
-                    addressLine1: response.data.addressLine1,
-                    addressLine2: response.data.addressLine2,
-                    addressNo: response.data.addressNo,
-                    city: response.data.city,
-                    state: response.data.state,
-                    postCode: response.data.postalCcode,
-                    country: response.data.country
-                })
-            })
-            .catch(err => console.log(err))
-        }else if(type == "add"){
-            axios.get(`${baseURL}/count/${id}`)
-            .then(res =>{
-                setData({...data, addressNo:res.data})
-                console.log(res.data)
-            })
-            .catch(console.error())
-        }
-    },[])
 
     return (
-    <Form onSubmit={submitHandler}>
+    <Form>
         <Form.Group className="mb-3" controlId="formGridAddress1">
             <Form.Label>Address No.</Form.Label>
             <Form.Control value={data.addressNo} placeholder="address No." readOnly/>

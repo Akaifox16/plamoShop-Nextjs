@@ -1,34 +1,34 @@
-import { useState, createContext } from "react"
+import { useEffect, useState} from "react"
 import { Tab, Tabs } from "react-bootstrap"
-import AddressForm from "./AddressForm"
+import AddressEditForm from "./AddressEditForm"
+import AddressAddForm from "./AddressAddForm"
 import AddressPane from "./addressPane"
-
-export const ItemContext = createContext()
 
 export default function CustomerTab(props){
     const {customerNumber} = props 
     const [key, setKey] = useState('addresses')
-    const [item, setItem] = useState(-1)
     const [type, setType] = useState('')
+    const [id, setId] = useState(0)
+    useEffect(()=>{        
+        setId(JSON.stringify(localStorage.getItem("selectedAddress")))
+    },[type])
 
     return (
-        <ItemContext.Provider value={item, setItem, type}>
-            <Tabs
-            id="controlled-tab-example"
-            activeKey={key}
-            onSelect={(k) => setKey(k)}
-            className="mb-3">
-            <Tab eventKey="addresses" title="Addresses" onClick={(()=>setItem(-1))}>
-                <AddressPane id={customerNumber} setKey = {setKey} setType={setType}/>
-            </Tab>
-            <Tab eventKey="address" title="Address" disabled>
-                <AddressForm />
-            </Tab>
-            <Tab eventKey="orders" title="Orders" >
-            </Tab>
-            <Tab eventKey="order" title="Order" disabled>
-            </Tab>
-            </Tabs> 
-        </ItemContext.Provider>
+        <Tabs
+        id="controlled-tab-example"
+        activeKey={key}
+        onSelect={(k) => setKey(k)}
+        className="mb-3">
+        <Tab eventKey="addresses" title="Addresses">
+            <AddressPane id={customerNumber} setKey = {setKey} setType={setType}/>
+        </Tab>
+        <Tab eventKey="address" title="Address" disabled>
+            {type === 'add' ? <AddressAddForm id={id}/> : <AddressEditForm id={id}/>}
+        </Tab>
+        <Tab eventKey="orders" title="Orders" >
+        </Tab>
+        <Tab eventKey="order" title="Order" disabled>
+        </Tab>
+        </Tabs> 
     )
 }

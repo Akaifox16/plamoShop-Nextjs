@@ -1,14 +1,13 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect} from 'react'
 import axios from 'axios'
 import { Table, Button } from 'react-bootstrap'
-import { ItemContext } from './CustomerTab'
 const baseURL = 'http://127.0.0.1:8000/api/address'
 
 
 export default function AddressPane(props){
     const [addresses,setAddresses] = useState([])
     const {id, setKey, setType} = props
-    const {setItem} = useContext(ItemContext)
+    
     useEffect(async ()=>{
         const dat = localStorage.getItem('addresses')
         if(dat){
@@ -57,8 +56,8 @@ export default function AddressPane(props){
                                 <td><Button variant="success" onClick={
                                     ()=>{
                                         setKey('address')
-                                        setItem(address.id)
                                         setType('edit')
+                                        localStorage.setItem("selectedAddress",address.id)
                                 }} >Edit</Button> {' '}
                                 <Button variant="danger" onClick={()=>{del(address.id)}}>Delete</Button></td>
                             </tr>
@@ -71,7 +70,6 @@ export default function AddressPane(props){
             ()=>{
                 setKey('address')
                 setType('add')
-                setItem(0)
             }
         }>Add</Button>
     </div>
