@@ -66,6 +66,7 @@ export default function Address(){
                             {job === "VP Sales" && <Employeelist />}
                         </Tab.Pane>
                         <Tab.Pane eventKey="#payment">
+                            <Submitpayment />
                             <a>ควย</a>
                         </Tab.Pane>
                     </Tab.Content>
