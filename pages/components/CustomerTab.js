@@ -1,6 +1,7 @@
 import { useState} from "react"
 import { Tab, Tabs } from "react-bootstrap"
-import AddressPane from "./addressPane"
+import AddressPane from "./address/AddressPane"
+import OrderPane from "./order/OrderPane"
 
 export default function CustomerTab(){
     const [key, setKey] = useState('addresses')
@@ -15,8 +16,7 @@ export default function CustomerTab(){
             <AddressPane />
         </Tab>
         <Tab eventKey="orders" title="Orders" >
-        </Tab>
-        <Tab eventKey="order" title="Order" disabled>
+            <OrderPane />
         </Tab>
         </Tabs> 
     )

@@ -5,7 +5,7 @@ import AddressEditForm from './AddressEditForm'
 import AddressAddForm from './AddressAddForm'
 const baseURL = 'http://127.0.0.1:8000/api/address'
 
-import { CustomerContext } from './CustomersList'
+import { CustomerContext } from '../CustomersList'
 export const AddressContext = createContext()
 
 export default function AddressPane(){
