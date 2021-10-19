@@ -77,13 +77,14 @@ export default function AddressPane(){
                                         setShow(true)
                                         setMethod('Edit')
                                         setSelect({
+                                            ...selected,
                                             id: address.id,
                                             addressLine1: address.AddressLine1,
-                                            addressLine2: address.AddressLine2,
+                                            addressLine2: address.AddressLine2? address.AddressLine2:"",
                                             addressNo: address.AddressNo,
                                             city: address.City,
-                                            state: address.State,
-                                            postCode: address.PostalCode,
+                                            state: address.State? address.State:"",
+                                            postCode: address.PostalCode? address.PostalCode:"",
                                             country: address.Country
                                         })
                                 }} >Edit</Button> {' '}

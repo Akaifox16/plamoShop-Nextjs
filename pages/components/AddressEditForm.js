@@ -31,7 +31,8 @@ export default function AddressEditForm() {
             })
             setAddresses(address)
             setShow(false)
-        })         
+        })
+        .catch(err=>{console.error();})         
     }
 
     return (

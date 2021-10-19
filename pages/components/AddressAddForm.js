@@ -15,6 +15,7 @@ export default function AddressEditForm() {
             setNo(res.data.no)
             setSubmit(false)
         })
+        .catch(err=>{console.error();})
     },[submit])
 
     const submitHandler = (e) => {
@@ -27,6 +28,7 @@ export default function AddressEditForm() {
                 setAddresses(res.data.addresses)
                 setSubmit(true)
             })
+            .catch(err=>{console.error();})
         })         
     }
 
