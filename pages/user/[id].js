@@ -5,17 +5,19 @@ import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion} from 'react-boot
 import Employeelist from '../components/EmployeeMgmt'
 import {createContext, useEffect, useState } from 'react'
 import Submitpayment from '../components/Submitpayment'
+import StockPane from '../components/stock/StockPane'
 
 export const UserContext = createContext({})
 
 export default function Address(){
-    const [user, setUser] = useState(0)
-    const [job, setJob] = useState("")
+    const [user, setUser] = useState({
+        employeeNumber: 0,
+        jobTitle: "",
+    })
     useEffect(()=>{
         const currentUser = JSON.parse(sessionStorage.getItem("token"))
         if(currentUser !== undefined){
-            setUser(currentUser.employeeNumber)
-            setJob(currentUser.jobTitle)
+            setUser({...user,employeeNumber: currentUser.employeeNumber, jobTitle: currentUser.jobTitle})
         }
     },[])
 
@@ -36,7 +38,7 @@ export default function Address(){
                     <ListGroup>
                         <ListGroup.Item action href="#customer">Customer Service</ListGroup.Item>
                     <Accordion defaultActiveKey="0">
-                        <Accordion.Item eventKey="1">
+                        {<Accordion.Item eventKey="1">
                             <Accordion.Header>Stock management</Accordion.Header>
                             <Accordion.Body>
                                 <ListGroup>
@@ -44,9 +46,9 @@ export default function Address(){
                                     <ListGroup.Item action href="#product">Product</ListGroup.Item>
                                 </ListGroup>
                             </Accordion.Body>
-                        </Accordion.Item>
+                        </Accordion.Item>}
                     </Accordion>
-                        {job === "VP Sales" && <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>}
+                        {user.jobTitle === "VP Sales" && <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>}
                         <ListGroup.Item action href="#payment">Submit Payment</ListGroup.Item>
                     </ListGroup>
                     
@@ -57,13 +59,13 @@ export default function Address(){
                             <CustomersList />
                         </Tab.Pane>
                         <Tab.Pane eventKey="#stock">
-
+                            <StockPane />
                         </Tab.Pane>
                         <Tab.Pane eventKey="#product">
 
                         </Tab.Pane>
                         <Tab.Pane eventKey="#promote">
-                            {job === "VP Sales" && <Employeelist />}
+                            {user.jobTitle === "VP Sales" && <Employeelist />}
                         </Tab.Pane>
                         <Tab.Pane eventKey="#payment">
                             <Submitpayment />

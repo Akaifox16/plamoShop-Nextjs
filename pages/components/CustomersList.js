@@ -11,12 +11,12 @@ export default function CustomersList(){
     const [customers,setCustomers] = useState([])
     const [customer,setCustomer] = useState(null)
     const btnText = {selected: 'selected',select: 'select'}
-    const id = useContext(UserContext)
+    const user = useContext(UserContext)
 
     useEffect(()=>{
-        axios.get(`${baseURL}/customers/${id}`)
+        axios.get(`${baseURL}/customers/${user.employeeNumber}`)
         .then(response => setCustomers(response.data))
-    },[id])
+    },[user.employeeNumber])
     useEffect(()=>{
         localStorage.setItem('customers',JSON.stringify(customers))
     },[customers])
