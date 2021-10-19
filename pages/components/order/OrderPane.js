@@ -45,12 +45,12 @@ export default function OrderPane(){
 
     return (
         <div>
-            <Table>
+            <Table striped>
                 <thead>
-                    <td>OID</td>
-                    <td>ordered date</td>
-                    <td>shipped Date</td>
-                    <td>status</td>
+                    <td><h5>OID</h5></td>
+                    <td><h5>Ordered date</h5></td>
+                    <td><h5>Shipped date</h5></td>
+                    <td><h5>Status</h5></td>
                 </thead>
                 <tbody>
                     {
@@ -75,14 +75,9 @@ export default function OrderPane(){
                     }
                 </tbody>
             </Table>
-            <Button variant="primary" size="lg" onClick={()=>{
-                setMethod('Create')
-                setShow(true)
-            }}>Create New</Button>
             <OrderContext.Provider value={{orders, selected, setShow, setSelect, setOrders}}>
                 <Offcanvas show={show} onHide={()=>{
                     setShow(false)
-                    setMethod()
                 }} placement='end'>
                     <Offcanvas.Header>
                         <Offcanvas.Title>{method} order</Offcanvas.Title>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import EmployeeLogin from './components/EmployeeLogin'
 import { useEffect, useState } from 'react'
-import { Container, Row, Col, Card, Navbar} from 'react-bootstrap'
+import { Container, Row, Col, Card, Navbar, Button} from 'react-bootstrap'
 
 export default function App(){
   const [catalogs,setCatalogs] = useState([])
@@ -19,6 +19,11 @@ export default function App(){
             <Col sm={2}><EmployeeLogin/></Col>
             </Container>
     </Navbar>
+    
+    <Button variant="primary" size="lg" onClick={()=>{
+      console.log("create new order")
+    }}>Create New</Button>
+
     <table>
         <tbody>
           {catalogs.map(catalog => {

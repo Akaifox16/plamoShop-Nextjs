@@ -53,12 +53,12 @@ export default function AddressPane(){
         <Table striped>
             <thead>
             <tr>
-                <td>Line1</td>
-                <td>Line2</td>
-                <td>City</td>
-                <td>State</td>
-                <td>Zip</td>
-                <td>Country</td>
+                <td><h5>Address line 1</h5></td>
+                <td><h5>Address line 2</h5></td>
+                <td><h5>City</h5></td>
+                <td><h5>State</h5></td>
+                <td><h5>Zip</h5></td>
+                <td><h5>Country</h5></td>
             </tr>
             </thead>
             <tbody>
