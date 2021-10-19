@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext, createContext } from 'react'
 import axios from 'axios'
 import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
+import StockPane from './StockPane'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function StockInList(){
     const [catalog,setcatalog] = useState([])
-    const [stockIn,setStockIn] = useState([])
     const fetch = () =>{
         const dat = localStorage.getItem('catalog')
         if(dat){
@@ -17,8 +17,10 @@ export default function StockInList(){
             })
         }
     }
-
-    useEffect(fetch,[catalog])
+    useEffect(fetch,[])
+    useEffect(()=>{
+        localStorage.setItem('catalog',JSON.stringify(catalog))
+    },[catalog])
 
     return (<div className='m-4'>
         <h3> This is yours stock-in Product</h3>
@@ -39,6 +41,6 @@ export default function StockInList(){
         ))}
         </Row>
         <hr/>
-        
+        <StockPane/>
     </div>)
 }
