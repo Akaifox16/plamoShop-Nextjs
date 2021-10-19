@@ -6,6 +6,7 @@ import Employeelist from '../components/EmployeeMgmt'
 import {createContext, useEffect, useState } from 'react'
 import Submitpayment from '../components/Submitpayment'
 import StockPane from '../components/stock/StockPane'
+import StockInList from '../components/stock/StockInList'
 
 export const UserContext = createContext({})
 
@@ -59,7 +60,7 @@ export default function Address(){
                             <CustomersList />
                         </Tab.Pane>
                         <Tab.Pane eventKey="#stock">
-                            <StockPane />
+                            <StockInList />
                         </Tab.Pane>
                         <Tab.Pane eventKey="#product">
 
