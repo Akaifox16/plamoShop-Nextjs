@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Table, Button, Offcanvas } from 'react-bootstrap'
 import AddressEditForm from './AddressEditForm'
 import AddressAddForm from './AddressAddForm'
-const baseURL = 'http://127.0.0.1:8000/api/address'
+const addressURL = 'http://127.0.0.1:8000/api/address'
 
 import { CustomerContext } from '../CustomersList'
 export const AddressContext = createContext()
@@ -29,14 +29,14 @@ export default function AddressPane(){
         if(dat){
             setAddresses(JSON.parse(dat))
         }else{
-            const res = await axios.get(`${baseURL}/${customer.customerNumber}`) // GET /address/$id
+            const res = await axios.get(`${addressURL}/${customer.customerNumber}`) // GET /address/$id
             setAddresses(res.data.addresses)
         }
     },[])
 
     useEffect(()=>{
         setSelect({...selected,customerID:customer.customerNumber})
-        axios.get(`${baseURL}/${customer.customerNumber}`) // GET /address/$id
+        axios.get(`${addressURL}/${customer.customerNumber}`) // GET /address/$id
         .then(res => {setAddresses(res.data.addresses)})    
     },[customer.customerNumber])
     
@@ -45,7 +45,7 @@ export default function AddressPane(){
     },[addresses])
 
     const del = (id)=>{
-        axios.delete(`${baseURL}/del/${id}`)
+        axios.delete(`${addressURL}/del/${id}`)
         .then(res => {setAddresses(addresses.filter(address=> address.id != res.data.data.id ))})
     }
 
@@ -105,7 +105,7 @@ export default function AddressPane(){
             <Offcanvas show={show} onHide={()=>{
                 setShow(false)
                 setMethod()
-            }} placement='end' >
+            }} placement='bottom' className='h-auto' >
                 <Offcanvas.Header closeButton>
                 <Offcanvas.Title>{method} address</Offcanvas.Title>
                 </Offcanvas.Header>

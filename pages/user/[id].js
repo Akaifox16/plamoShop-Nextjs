@@ -1,14 +1,27 @@
-import CustomersList from '../components/CustomersList'
-import { SSRProvider } from '@react-aria/ssr'
-import Logout from '../components/Logout'
-import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion} from 'react-bootstrap'
-import Employeelist from '../components/EmployeeMgmt'
 import {createContext, useEffect, useState } from 'react'
-import Submitpayment from '../components/Submitpayment'
-import StockPane from '../components/stock/StockPane'
-import StockInList from '../components/stock/StockInList'
+import { useRouter} from "next/router"
+import { SSRProvider } from '@react-aria/ssr'
+import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion, Button} from 'react-bootstrap'
+
+import CustomersList from '../../components/CustomersList'
+import Employeelist from '../../components/EmployeeMgmt'
+import Submitpayment from '../../components/Submitpayment'
+import StockInList from '../../components/stock/StockInList'
 
 export const UserContext = createContext({})
+
+function Logout(){
+    const router = useRouter()
+    const logout = ()=>{
+        sessionStorage.removeItem("token")
+        localStorage.clear()
+        router.push(`/`)
+    }
+
+    return(
+        <Button variant="danger" size="lg" onClick={logout}>Logout</Button>
+    )
+}
 
 export default function Address(){
     const [user, setUser] = useState({

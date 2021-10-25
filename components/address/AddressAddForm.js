@@ -2,7 +2,7 @@ import { useState, useContext, useEffect} from "react";
 import axios from "axios";
 import { Form, Row, Button, Col } from "react-bootstrap";
 import { AddressContext } from "./AddressPane";
-const baseURL = "http://127.0.0.1:8000/api/address";
+const addressURL = "http://127.0.0.1:8000/api/address";
 
 export default function AddressEditForm() {
     const {selected, setSelect, setAddresses} = useContext(AddressContext)
@@ -10,7 +10,7 @@ export default function AddressEditForm() {
     const [submit,setSubmit] = useState(false)
     
     useEffect(()=>{
-        axios.get(`${baseURL}/count/${selected.customerID}`)
+        axios.get(`${addressURL}/count/${selected.customerID}`)
         .then(res=>{
             setNo(res.data.no)
             setSubmit(false)
@@ -21,9 +21,9 @@ export default function AddressEditForm() {
     const submitHandler = (e) => {
         e.preventDefault();
         // POST /create
-        axios.post(`${baseURL}/create`,{...selected,addressNo:no})
+        axios.post(`${addressURL}/create`,{...selected,addressNo:no})
         .then(()=>{
-            axios.get(`${baseURL}/${selected.customerID}`)
+            axios.get(`${addressURL}/${selected.customerID}`)
             .then(res=>{
                 setAddresses(res.data.addresses)
                 setSubmit(true)

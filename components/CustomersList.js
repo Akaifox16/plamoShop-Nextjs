@@ -4,7 +4,7 @@ import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
 import CustomerTab from './CustomerTab'
 const baseURL = 'http://127.0.0.1:8000/api'
 
-import { UserContext } from '../user/[id]'
+import { UserContext } from '../pages/user/[id]'
 export const CustomerContext = createContext()
 
 export default function CustomersList(){

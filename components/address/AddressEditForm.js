@@ -2,15 +2,15 @@ import { useState, useContext} from "react";
 import axios from "axios";
 import { Form, Row, Button, Col } from "react-bootstrap";
 import { AddressContext } from "./AddressPane";
-const baseURL = "http://127.0.0.1:8000/api/address";
+const addressURL = "http://127.0.0.1:8000/api/address";
 
 export default function AddressEditForm() {
     const {addresses, selected, setShow, setSelect, setAddresses} = useContext(AddressContext)
     
     const submitHandler = (e) => {
         e.preventDefault();
-        // PATCH /edit/{id}
-        axios.patch(`${baseURL}/edit/${selected.id}`,selected)
+        // PATCH /update/{id}
+        axios.patch(`${addressURL}/update/${selected.id}`,selected)
         .then(()=>{
             let address = []
             addresses.forEach(a => {

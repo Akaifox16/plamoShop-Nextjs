@@ -1,7 +1,26 @@
 import Link from 'next/link'
-import EmployeeLogin from './components/EmployeeLogin'
 import { useEffect, useState } from 'react'
 import { Container, Row, Col, Card, Navbar, Button} from 'react-bootstrap'
+
+function EmployeeLogin(){
+    const [token,setToken] = useState(null)
+    function fetch() {
+        const login = sessionStorage.getItem("token")
+        if(login){
+            const dat = JSON.parse(login)
+            setToken(dat)
+        }
+    }
+    useEffect(fetch,[])
+    
+    if(!token){
+        return <div className="m-3" ><Link href='/login'><Button variant="primary" size="lg" >Login</Button></Link></div>
+    }
+
+    return (
+        <div className ="m-3"><Link href= {`/user/${token.employeeNumber}`} ><Button variant="primary" size="lg" >Welcome {token.firstName}</Button></Link></div>
+    )
+}
 
 export default function App(){
   const [catalogs,setCatalogs] = useState([])

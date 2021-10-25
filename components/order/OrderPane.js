@@ -1,7 +1,9 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Table, Button, Offcanvas } from "react-bootstrap";
-const baseURL = 'http://127.0.0.1:8000/api/order'
+const orderURL = 'http://127.0.0.1:8000/api/order'
+
+import OrderEditForm from "./OrderEditForm";
 
 import { CustomerContext } from "../CustomersList";
 export const OrderContext = createContext()
@@ -15,12 +17,13 @@ export default function OrderPane(){
         orderNumber: 0,
         orderDate: "",
         shippedDate: "",
-        status: ""
+        status: "",
+        comments: ""
     })
     const [method,setMethod] = useState()
 
     const fetchOrders = ()=>{
-        axios.get(`${baseURL}/${customer.customerNumber}`)
+        axios.get(`${orderURL}/${customer.customerNumber}`)
             .then(res=>{
                 setOrders(res.data.orders)
             })
@@ -47,10 +50,12 @@ export default function OrderPane(){
         <div>
             <Table striped>
                 <thead>
+                    <tr>
                     <td><h5>OID</h5></td>
                     <td><h5>Ordered date</h5></td>
                     <td><h5>Shipped date</h5></td>
                     <td><h5>Status</h5></td>
+                    </tr>
                 </thead>
                 <tbody>
                     {
@@ -64,6 +69,13 @@ export default function OrderPane(){
                                     <td>
                                         <Button variant="success" onClick={
                                             ()=>{
+                                                setSelect({
+                                                    ...selected,
+                                                    orderNumber: order.orderNumber,
+                                                    orderDate: order.orderDate,
+                                                    status: order.status,
+                                                    comments: order.comments
+                                                })
                                                 setMethod('Edit')
                                                 setShow(true)
                                             }
@@ -78,12 +90,12 @@ export default function OrderPane(){
             <OrderContext.Provider value={{orders, selected, setShow, setSelect, setOrders}}>
                 <Offcanvas show={show} onHide={()=>{
                     setShow(false)
-                }} placement='end'>
+                }} placement='bottom' className='h-auto'>
                     <Offcanvas.Header>
                         <Offcanvas.Title>{method} order</Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
-                        {method ? method == 'Edit' ? "Ready to Edit this Order":"Can't wait to create new order":"no method selected"}
+                        {method ? method == 'Edit' ? <OrderEditForm />:"Can't wait to create new order":"no method selected"}
                     </Offcanvas.Body>
                 </Offcanvas>
             </OrderContext.Provider>

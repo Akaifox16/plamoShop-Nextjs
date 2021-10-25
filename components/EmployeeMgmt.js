@@ -3,7 +3,7 @@ import axios from 'axios'
 import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
 const baseURL = 'http://127.0.0.1:8000/api'
 
-import { UserContext } from '../user/[id]'
+import { UserContext } from '../pages/user/[id]'
 
 export default function Employeelist(){
     const [employees,setEmployees] = useState([])
