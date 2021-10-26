@@ -9,13 +9,13 @@ export default function StockPane() {
     const {catalog} = useContext(StockinContext)
     const fetch = () =>{
         
-            axios.get(`${baseURL}/stock`)
+            axios.get(`${baseURL}/stock/${catalog.productCode}`)
             .then(response => {
-                setstockins(response.data)
+                setstockins(response.data.stock)
             })
     }
 
-    useEffect(fetch,[])
+    useEffect(fetch,[catalog])
     useEffect(()=>{
         localStorage.setItem('stockins',JSON.stringify(stockins))
     },[stockins])
