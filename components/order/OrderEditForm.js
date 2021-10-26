@@ -5,7 +5,7 @@ import { OrderContext } from "./OrderPane";
 const orderURL = "http://127.0.0.1:8000/api/order";
 
 export default function OrderEditForm() {
-    const {orders, selected, setShow, setSelect, setOrders} = useContext(OrderContext)
+    const {orders, selected, show, setShow, setSelect, setOrders} = useContext(OrderContext)
     const actions = ["In Process", "On Hold",
                     "Resolved", "Shipped",
                     "Canceled","Disputed"]
@@ -13,22 +13,22 @@ export default function OrderEditForm() {
     const submitHandler = (e) => {
         e.preventDefault();
         // PATCH /update/{oid}
-        // axios.patch(`${orderURL}/update/${selected.orderNumber}`,selected)
-        // .then(()=>{
-        //     let order = []
-        //     orders.forEach(o => {
-        //         if(o.id == selected.id){
-        //             order = [...order, selected]
-        //         }else{
-        //             order = [...order,o]
-        //         }
-        //     })
-        //     setOrders(order)
-        //     setShow(false)
-        // })
-        // .catch(err=>{console.error();})       
-        
-        console.log('submit clicked!')
+        axios.patch(`${orderURL}/update/${selected.orderNumber}`,selected)
+        .then(()=>{
+            let order = []
+            orders.forEach(o => {
+                if(o.orderNumber == selected.orderNumber){
+                    order = [...order, selected]
+                }else{
+                    order = [...order,o]
+                }
+            })
+            setOrders(order)
+            setShow({...show,
+                editCanvas:true
+            })
+        })
+        .catch(err=>{console.error();})       
     }
 
     return (
