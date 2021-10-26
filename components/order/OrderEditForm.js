@@ -20,7 +20,7 @@ export default function OrderEditForm() {
         //             order = [...order,o]
         //         }
         //     })
-        //     setAddresses(order)
+        //     setOrders(order)
         //     setShow(false)
         // })
         // .catch(err=>{console.error();})       
