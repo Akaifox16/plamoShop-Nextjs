@@ -1,7 +1,6 @@
 import { useState, useEffect, createContext, useContext} from 'react'
 import axios from 'axios'
 import { Table, Button, Offcanvas } from 'react-bootstrap'
-import StockEditForm from './StockEditForm'
 import StockAddForm from './StockAddForm'
 import { StockinContext } from './StockInList'
 const baseURL = 'http://127.0.0.1:8000/api'
@@ -89,7 +88,7 @@ export default function StockPane() {
                 <Offcanvas.Title>{method} stock_in</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    {method ? method == 'Edit' ? <StockEditForm />:<StockAddForm /> : <></>}
+                    {method && <StockAddForm />}
                 </Offcanvas.Body>
             </Offcanvas>
 
