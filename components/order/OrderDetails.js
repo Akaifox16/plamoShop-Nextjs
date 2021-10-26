@@ -1,12 +1,17 @@
 import axios from "axios";
-import { useContext, useState, useEffect } from "react";
-import { Offcanvas, Table } from "react-bootstrap";
+import { useContext, useState, useEffect, createContext } from "react";
+import { Button, Col, Offcanvas, Row, Table } from "react-bootstrap";
+import PaymentAddForm from "../payment/PaymentAddForm";
 import { OrderContext } from "./OrderPane";
 const orderURL = 'http://127.0.0.1:8000/api/order'
 
+export const OffCanvasContext = createContext()
+
 export default function OrderDetails(){
-    const {orders, show, selected, setShow, setSelect, setOrders} = useContext(OrderContext)
+    const {selected} = useContext(OrderContext)
     const [orderDetails,setOrderDetails] =useState([])
+    const [method,setMethod] = useState('')
+    const [show,setShow] = useState({addCanvas:false})
 
     useEffect(()=>{
         axios.get(`${orderURL}/get-details/${selected.orderNumber}`)
@@ -15,7 +20,6 @@ export default function OrderDetails(){
         })
     },[selected])
     
-
     const total = (sum,order) => sum + order
 
     return (<>
@@ -54,15 +58,27 @@ export default function OrderDetails(){
                 </td>
             </tfoot>
         </Table>
-        <div>
-            <div><h4>Payment No.</h4></div>
-            <div>{orders.paymentNumber}</div>
-        </div>
-        <Offcanvas show={show.editCanvas} onHide={()=>{
-                setShow({...show,editCanvas:false})
+            <Row>
+                <Col sm={10}><h4>Payment No.</h4></Col>
+                <Col sm={2}>{selected.paymentNumber ? 
+                <p>{selected.paymentNumber}</p> : 
+                <Button onClick={e => {
+                    setMethod('Add')
+                    setShow({...show,addCanvas:true})
+                }}>Add</Button>}</Col>
+            </Row>
+        <OffCanvasContext.Provider value={{show, setShow, setMethod}}>
+        <Offcanvas show={show.addCanvas} onHide={()=>{
+                setShow({...show,addCanvas:false})
             }} placement='bottom' className='h-auto'>
-                
+            <Offcanvas.Header>
+                <Offcanvas.Title>{method} payment</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+                {method && method == 'Add' ? <PaymentAddForm />:"Can't wait to create new order"}
+            </Offcanvas.Body>
         </Offcanvas>
+        </OffCanvasContext.Provider>
         </>
     )
 }

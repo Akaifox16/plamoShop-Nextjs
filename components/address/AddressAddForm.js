@@ -4,7 +4,7 @@ import { Form, Row, Button, Col } from "react-bootstrap";
 import { AddressContext } from "./AddressPane";
 const addressURL = "http://127.0.0.1:8000/api/address";
 
-export default function AddressEditForm() {
+export default function AddressAddForm() {
     const {selected, setSelect, setAddresses} = useContext(AddressContext)
     const [no,setNo] = useState()
     const [submit,setSubmit] = useState(false)
