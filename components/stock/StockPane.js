@@ -1,6 +1,8 @@
 import { useState, useEffect, createContext, useContext} from 'react'
 import axios from 'axios'
 import { Table, Button, Offcanvas } from 'react-bootstrap'
+import StockEditForm from './StockEditForm'
+import StockAddForm from './StockAddForm'
 import { StockinContext } from './StockInList'
 const baseURL = 'http://127.0.0.1:8000/api'
 export const StockpaneContext = createContext()
@@ -26,7 +28,7 @@ export default function StockPane() {
     useEffect(()=>{
         setSelect({...selected,productCode:catalog.productCode})
         axios.get(`${baseURL}/stock/${catalog.productCode}`) // GET /getstockByID/$id
-        .then(res => {setstockins(res.data.stockins)})    
+        .then(res => {setstockins(res.data.stock)})    
     },[catalog.productCode])
 
     useEffect(fetch,[catalog])
@@ -52,7 +54,7 @@ export default function StockPane() {
                     stockins.map(c=>{
                         return(
                             <tr key={c.productCode}>
-                                <td>{c.productCode}</td>
+                                <td>{catalog.productCode}</td>
                                 <td>{c.qty}</td>
                                 <td>{c.created_at}</td>
                                 <td>{c.updated_at}</td>
