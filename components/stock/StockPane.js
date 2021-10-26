@@ -19,9 +19,7 @@ export default function StockPane() {
 
     const [selected,setSelect] = useState({
         productCode: catalog.productCode,
-        qty: 0,
-        created_at: "",
-        updated_at: ""})
+        qty: 0})
     const [method,setMethod] = useState()
     const [show, setShow] = useState(false);
 
