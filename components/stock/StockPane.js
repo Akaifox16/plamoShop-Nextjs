@@ -8,12 +8,25 @@ export default function StockPane() {
     const [stockins, setstockins] = useState([])
     const {catalog} = useContext(StockinContext)
     const fetch = () =>{
-        
             axios.get(`${baseURL}/stock/${catalog.productCode}`)
             .then(response => {
                 setstockins(response.data.stock)
             })
     }
+
+    const [selected,setSelect] = useState({
+        productCode: catalog.productCode,
+        qty: 0,
+        created_at: "",
+        updated_at: ""})
+    const [method,setMethod] = useState()
+    const [show, setShow] = useState(false);
+
+    useEffect(()=>{
+        setSelect({...selected,productCode:catalog.productCode})
+        axios.get(`${baseURL}/stock/${catalog.productCode}`) // GET /getstockByID/$id
+        .then(res => {setstockins(res.data.stockins)})    
+    },[catalog.productCode])
 
     useEffect(fetch,[catalog])
     useEffect(()=>{
@@ -42,14 +55,44 @@ export default function StockPane() {
                                 <td>{c.qty}</td>
                                 <td>{c.created_at}</td>
                                 <td>{c.updated_at}</td>
-                                <td><Button variant="success">Edit</Button> {' '}
-                                <Button variant="danger" onClick={()=>{del(c.produtCode)}}>Delete</Button></td>
+                                <td><Button variant="success" onClick={
+                                    ()=>{
+                                        setShow(true)
+                                        setMethod('Edit')
+                                        setSelect({
+                                            ...selected,
+                                            productCode: c.productCode,
+                                            qty: c.qty,
+                                            created_at: c.created_at,
+                                            updated_at: c.updated_at
+                                        })
+                                }} >Edit</Button></td>
                             </tr>
                         )
                     })
                 }
             </tbody>
         </Table>
+        <Button variant="primary" size="lg" onClick={
+            ()=>{
+                setShow(true)
+                setMethod('Add')
+            }
+        }>Add</Button>
+        <StockpaneContext.Provider value={{stockins,selected,setShow,setSelect,setstockins}}>
+            <Offcanvas show={show} onHide={()=>{
+                setShow(false)
+                setMethod()
+            }} placement='bottom' className='h-auto' >
+                <Offcanvas.Header closeButton>
+                <Offcanvas.Title>{method} stock_in</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    {method ? method == 'Edit' ? <StockEditForm />:<StockAddForm /> : <></>}
+                </Offcanvas.Body>
+            </Offcanvas>
+
+        </StockpaneContext.Provider>
         </div>
     )
 }
