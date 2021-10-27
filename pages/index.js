@@ -1,29 +1,9 @@
 import axios from 'axios'
-import { execOnce } from 'next/dist/shared/lib/utils'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Container, Row, Col, Card, Navbar, Button, ListGroup, ListGroupItem, Badge} from 'react-bootstrap'
+import EmployeeLogin from '../components/EmployeeLogin'
 
 const BaseUrl = "http://127.0.0.1:8000/api"
-function EmployeeLogin(){
-    const [token,setToken] = useState(null)
-    function fetch() {
-        const login = sessionStorage.getItem("token")
-        if(login){
-            const dat = JSON.parse(login)
-            setToken(dat)
-        }
-    }
-    useEffect(fetch,[])
-    
-    if(!token){
-        return <div className="m-3" ><Link href='/login'><Button variant="primary" size="lg" >Login</Button></Link></div>
-    }
-
-    return (
-        <div className ="m-3"><Link href= {`/user/${token.employeeNumber}`} ><Button variant="primary" size="lg" >Welcome {token.firstName}</Button></Link></div>
-    )
-}
 
 export default function App(){
   const [catalogs,setCatalogs] = useState([])
@@ -32,8 +12,17 @@ export default function App(){
   const fetch = async () =>{
     axios.get(`${BaseUrl}/catalog`).then(res=>{setCatalogs(res.data)})
   }
-  useEffect(fetch,[])
-  
+  useEffect(()=>{
+    fetch()
+    const sessCart = sessionStorage.getItem('carts');
+    if(sessCart){
+      setCarts(JSON.parse(sessCart))
+    }
+  },[])
+  useEffect(()=>{
+    sessionStorage.setItem('carts',JSON.stringify(carts))
+  },[carts])
+
   return ( <>
     <Navbar bg="dark" variant="dark">
             <Container>
@@ -43,39 +32,37 @@ export default function App(){
             <Col sm={2}><EmployeeLogin/></Col>
             </Container>
     </Navbar>
-    
-    <Button variant="success" size="lg" onClick={()=>{
-      console.log("create new order")
-    }}>Cart <Badge pill bg='danger'>{carts.reduce((sum)=>sum +1 ,0)}</Badge></Button>
-
+    <div className="m-1">
+    <Button variant="success" size="lg" href='order'>Cart <Badge pill bg='danger'>{carts.reduce((sum)=>sum +1 ,0)}</Badge></Button>
+    {' '}
+    <Button variant="primary" size="lg" href='preorder'>Pre Order <Badge pill bg='secondary'>new</Badge></Button>
+    </div>
     <table>
         <tbody>
         <div classname = "g=4">
-        <Row xs="auto" md={4} className="g-4">
+        <Row xs="auto" md={6} className="g-4">
           {catalogs.map(catalog => {
-            return (<Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src="holder.js/100px180" />
+            return ( 
+              <Col key={catalog.productNumber}>
+              <Card key={catalog.productName} className="h-100">
                 <Card.Body>
                   <Card.Title>{catalog.productName}</Card.Title>
-                  <Card.Text>
-                    
-                  </Card.Text>
+                  <ListGroup className="list-group-flush">
+                    <ListGroupItem> Scale {catalog.productScale}</ListGroupItem>
+                    <ListGroupItem> Price {catalog.buyPrice}</ListGroupItem>
+                    <ListGroupItem> Quantity {catalog.quantityInStock}</ListGroupItem>
+                  </ListGroup>
+                    <Button variant="primary" onClick={e=>{
+                      if(!carts.includes(catalog.productName)){
+                        setCarts([...carts,{  productName:catalog.productName,
+                                              productCode:catalog.productCode,
+                                              MSRP:catalog.MSRP}])
+                      }}
+                    }>Add to cart</Button>
                   </Card.Body>
-                  
-                <ListGroup className = "show">
-                  <ListGroupItem> Price {catalog.buyPrice}</ListGroupItem>
-                  <ListGroupItem> Quantity {catalog.quantityInStock}</ListGroupItem>
-                </ListGroup>
-                  <Card.Body>
-                  <Button variant="primary" onClick={e=>{
-                    if(!carts.includes(catalog.productName)){
-                      setCarts([...carts,catalog.productName])
-                    }
-                  }}>Add to cart</Button>
-                  </Card.Body>
-                
-              </Card>)
-          })
+              </Card>
+              </Col>
+            )})
           }
           </Row>
           </div>
