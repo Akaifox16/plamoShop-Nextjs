@@ -7,8 +7,7 @@ const orderURL = "http://127.0.0.1:8000/api/order";
 export default function OrderEditForm() {
     const {orders, selected, show, setShow, setSelect, setOrders} = useContext(OrderContext)
     const actions = ["In Process", "On Hold",
-                    "Resolved", "Shipped",
-                    "Canceled","Disputed"]
+                    "Resolved","Canceled","Disputed"]
     
     const submitHandler = (e) => {
         e.preventDefault();
@@ -34,7 +33,6 @@ export default function OrderEditForm() {
     return (
     <div>
         <Form>
-
             <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridShippedDate">
                     <Form.Label>Shipped Date</Form.Label>

@@ -5,7 +5,6 @@ import {Tab, Row, Col, ListGroup, Navbar, Container, Accordion, Button} from 're
 
 import CustomersList from '../../components/CustomersList'
 import Employeelist from '../../components/EmployeeMgmt'
-import Submitpayment from '../../components/Submitpayment'
 import StockInList from '../../components/stock/StockInList'
 import ProductList from '../../components/product/ProductList'
 
@@ -64,7 +63,6 @@ export default function Address(){
                         </Accordion.Item>}
                     </Accordion>
                         {user.jobTitle === "VP Sales" && <ListGroup.Item action href="#promote">Employees management</ListGroup.Item>}
-                        <ListGroup.Item action href="#payment">Submit Payment</ListGroup.Item>
                     </ListGroup>
                     
                     </Col>
@@ -81,10 +79,6 @@ export default function Address(){
                         </Tab.Pane>
                         <Tab.Pane eventKey="#promote">
                             {user.jobTitle === "VP Sales" && <Employeelist />}
-                        </Tab.Pane>
-                        <Tab.Pane eventKey="#payment">
-                            <Submitpayment />
-                            <a>ควย</a>
                         </Tab.Pane>
                     </Tab.Content>
                     </Col>

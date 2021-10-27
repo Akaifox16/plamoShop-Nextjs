@@ -46,10 +46,15 @@ return ( <>
                             <Form.Group key={cart.productName} controlId="formGridQty">
                                 <Form.Control onChange={e=>{
                                     const dat = data.order.filter(d=>{return d.productCode !== cart.productCode})
-                                    setData({...data, order: [...dat,{productCode:cart.productCode,quantityordered:e.target.value}]})
+                                    setData({...data, order: [...dat,{productCode:cart.productCode, quantityOrdered:e.target.value, MSRP:cart.MSRP}]})
                                 }}/>        
                             </Form.Group>
                             </td>
+                            <td><Button className="mt-1" variant="danger" onClick={e=>{
+                                const remain =carts.filter(c=>{return cart.productCode !== c.productCode})
+                                setCarts(remain)
+                                sessionStorage.setItem('carts',JSON.stringify(remain))
+                            }}> Delete </Button></td>
                         </tr>
                     )
                 })}
@@ -66,11 +71,18 @@ return ( <>
             <Col md={10}></Col>
             <Col md={2}><Button className="mt-3" variant="success" size="lg" onClick={e=>{
                 e.preventDefault()
-                axios.post(`${baseUrl}/create/${data.customerNumber}`,{order:data.order, })
+                axios.post(`${baseUrl}/order/create/${data.customerNumber}`,{orderNumber: orderNumber})
                 .then(res=>{
-                    console.log(data)
-                    console.log(orderNumber)
+                    console.log({order:data.order, orderNumber: orderNumber})
+                    axios.post(`${baseUrl}/order/create-details`,{order:data.order, orderNumber: orderNumber})
+                    .then(res=>{
+                        sessionStorage.removeItem('carts')
+                        setCarts([])
+                        setData({customerNumber:0,order:[]})
+                    })
+                    .catch(e=>{console.error()})
                 })
+                .catch(err=>{console.error()})
             }
             }>Create Order</Button></Col>
         </Row>
