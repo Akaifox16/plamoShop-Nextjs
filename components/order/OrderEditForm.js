@@ -34,7 +34,6 @@ export default function OrderEditForm() {
     return (
     <div>
         <Form>
-
             <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridShippedDate">
                     <Form.Label>Shipped Date</Form.Label>
