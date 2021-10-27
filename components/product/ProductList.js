@@ -15,6 +15,7 @@ export default function ProductList(){
             .then(response => {
                 setcatalogs(response.data)
             })
+            .catch(err=>{console.error()})
     }
     useEffect(fetch,[])
     useEffect(()=>{
@@ -46,10 +47,6 @@ export default function ProductList(){
                     }}>
                         {catalog ? c.productCode == catalog.productCode ? btnText.selected:btnText.select:btnText.select}
                 </Button>
-                
-                
-                
-                
                 </Card.Body>
             </Card>
             </Col>

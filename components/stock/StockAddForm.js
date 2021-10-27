@@ -5,9 +5,8 @@ import { StockpaneContext } from "./StockPane";
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function StockAddForm() {
-    const {selected, setSelect, setstockins} = useContext(StockpaneContext)
-    const [no,setNo] = useState()
-    const [submit,setSubmit] = useState(false)
+    const {selected, setSelect, setstockins, setShow} = useContext(StockpaneContext)
+    // const [submit,setSubmit] = useState(false)
 
     /*useEffect(()=>{
         axios.get(`${baseURL}/stock/count/${selected.customerID}`)
@@ -26,7 +25,8 @@ export default function StockAddForm() {
             axios.get(`${baseURL}/stock/${selected.productCode}`)
             .then(res=>{
                 setstockins(res.data.stock)
-                setSubmit(true)
+                setShow(false)
+                // setSubmit(true)
             })
             .catch(err=>{console.error();})
         })         
@@ -38,7 +38,7 @@ export default function StockAddForm() {
             <Form>
                 <Form.Group className="mb-3" controlId="formGridproductCode">
                 <Form.Label>Product Code</Form.Label>
-                <Form.Control placeholder="S123_1234" onChange={e=>{
+                <Form.Control value={selected.productCode} placeholder="S123_1234" onChange={e=>{
                     setSelect({...selected,productCode:e.target.value})
                 }}/>
                 </Form.Group>
@@ -49,20 +49,7 @@ export default function StockAddForm() {
                         setSelect({...selected,qty:e.target.value})
                     }}/>
                     </Form.Group>
-                    
-                    <Form.Group as={Col} controlId="formGridcreated_at">
-                    <Form.Label>Created_at</Form.Label>
-                    <Form.Control type='date' value={selected.created_at} onChange={e=>{
-                        setSelect({...selected,created_at:e.target.value})
-                    }}/>
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="formGridupdated_at">
-                    <Form.Label>Updated_at</Form.Label>
-                    <Form.Control type='date' value={selected.updated_at} onChange={e=>{
-                        setSelect({...selected,updated_at:e.target.value})
-                    }}/>
-                    </Form.Group>
+                
                 </Row>
                 <Button variant="primary" onClick={submitHandler}>
                 Submit

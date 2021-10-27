@@ -17,6 +17,7 @@ export default function ProductPane(){
         .then(response => {
             setproducts(response.data.product)
         })
+        .catch(err=>{console.error()})
     }
 
     const [selected,setSelect] = useState({
@@ -36,6 +37,7 @@ export default function ProductPane(){
         setSelect({...selected,productCode:catalog.productCode})
         axios.get(`${baseURL}/product/${catalog.productCode}`) // GET /getstockByID/$id
         .then(res => {setproducts(res.data.product)})    
+        .catch(err=>{console.error()})
     },[catalog.productCode])
 
     useEffect(fetch,[catalog])

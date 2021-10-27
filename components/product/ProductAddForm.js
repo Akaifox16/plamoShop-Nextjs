@@ -13,6 +13,7 @@ export default function ProductAddForm() {
 
     const submitHandler = (e) => {
         e.preventDefault();
+        console.log(selected)
         // POST /create
         axios.post(`${baseURL}/product/create`,selected)
         .then(()=>{
@@ -22,7 +23,8 @@ export default function ProductAddForm() {
                 setSubmit(true)
             })
             .catch(err=>{console.error();})
-        })         
+        })
+        .catch(err=>{console.error()})         
     }
 
     return (
@@ -37,14 +39,14 @@ export default function ProductAddForm() {
 
                 <Form.Group className="mb-3" controlId="formGridproductName">
                 <Form.Label>Product Name</Form.Label>
-                <Form.Control placeholder="แท่งหรรษามีแสง" onChange={e=>{
+                <Form.Control placeholder="Mitsubishi Zero" onChange={e=>{
                     setSelect({...selected,productName:e.target.value})
                 }}/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formGridproductLine">
                 <Form.Label>Product Line</Form.Label>
-                <Form.Control placeholder="Motorbike" onChange={e=>{
+                <Form.Control placeholder="Torpedo" onChange={e=>{
                     setSelect({...selected,productLine:e.target.value})
                 }}/>
                 </Form.Group>
@@ -63,8 +65,6 @@ export default function ProductAddForm() {
                         setSelect({...selected,productVendor:e.target.value})
                     }}/>
                     </Form.Group>
-                    
-
 
                 </Row>
 
@@ -97,18 +97,10 @@ export default function ProductAddForm() {
                 }}/>
                 </Form.Group>
                 
-                <Button variant="primary" onClick={submitHandler}>
+                <Button className="mt-1" variant="primary" onClick={submitHandler}>
                 Submit
             </Button>
             </Form>
         </div>    
         );
-
-
-
-
-
-
-
-
 }
