@@ -13,13 +13,17 @@ export default function OrderDetails(){
     const [method,setMethod] = useState('')
     const [show,setShow] = useState({addCanvas:false})
 
-    useEffect(()=>{
+    const fetchDetails = () =>{
         axios.get(`${orderURL}/get-details/${selected.orderNumber}`)
         .then(res => {
             setOrderDetails(res.data.orderDetails)
         })
+    }
+
+    useEffect(()=>{
+        fetchDetails()
     },[selected])
-    
+
     const total = (sum,order) => sum + order
 
     return (<>
@@ -70,7 +74,7 @@ export default function OrderDetails(){
         <OffCanvasContext.Provider value={{show, setShow, setMethod}}>
         <Offcanvas show={show.addCanvas} onHide={()=>{
                 setShow({...show,addCanvas:false})
-            }} placement='bottom' className='h-auto'>
+            }} placement='bottom' className='h-50'>
             <Offcanvas.Header>
                 <Offcanvas.Title>{method} payment</Offcanvas.Title>
             </Offcanvas.Header>

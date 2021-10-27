@@ -55,7 +55,7 @@ export default function CustomersList(){
         ))}
         </Row>
         <hr/>
-        <CustomerContext.Provider value={{customer}}>
+        <CustomerContext.Provider value={{customer,setCustomer}}>
         {
             customer && <CustomerTab />
         }

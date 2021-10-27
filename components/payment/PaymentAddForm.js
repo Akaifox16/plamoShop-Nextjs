@@ -8,8 +8,8 @@ import { OffCanvasContext } from "../order/OrderDetails"
 import { OrderContext } from "../order/OrderPane"
 
 export default function PaymentAddForm(){
-    const {customer} = useContext(CustomerContext)
-    const {orderDetails, show, setShow, setMethod} = useContext(OffCanvasContext)
+    const {customer, setCustomer} = useContext(CustomerContext)
+    const {show, setShow, setMethod} = useContext(OffCanvasContext)
     const {selected, setSelect} = useContext(OrderContext)
     const [data,setData] = useState({
         customerNumber: customer.customerNumber,
@@ -20,7 +20,6 @@ export default function PaymentAddForm(){
 
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(data)
         // POST /payment
         axios.post(`${baseURL}/payment`,data)
         .then((res)=>{
@@ -35,6 +34,14 @@ export default function PaymentAddForm(){
             .catch(err=>{console.error()})
         })
         .catch(err=>{console.error();})       
+        
+        let pts = parseInt(Number(data.amount) / 100)
+        console.log({customerNumber:customer.customerNumber,points: pts})
+        axios.patch(`${baseURL}/points`,{customerNumber:customer.customerNumber,points: pts})
+        .then(res=>{
+            setCustomer({...customer, points: customer.points + pts})
+        })
+        .catch(err=>{console.error()})
     }
 
     return (

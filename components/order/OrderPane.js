@@ -60,7 +60,6 @@ function OrderTableRow(props) {
 
 export default function OrderPane(){
     const {customer} = useContext(CustomerContext)
-    const [showAll,setShowAll] = useState(false)
     const [show, setShow] = useState({editCanvas:false,showAll:false,details:false})
     const [orders, setOrders] = useState([])
     const [selected,setSelect] = useState({
@@ -69,7 +68,8 @@ export default function OrderPane(){
         orderDate: "",
         shippedDate: "",
         status: "",
-        comments: ""
+        comments: "",
+        paymentNumber: ""
     })
     const [method,setMethod] = useState()
     const unDoneStatus = ['In Process','On Hold']
@@ -93,6 +93,7 @@ export default function OrderPane(){
     useEffect(()=>{
         setSelect({...selected,customerNumber:customer.customerNumber})
         fetchOrders()
+        setShow({...show,details:false})
     },[customer.customerNumber])
     useEffect(()=>{
         localStorage.setItem('orders',JSON.stringify(orders))
@@ -107,7 +108,7 @@ export default function OrderPane(){
         <div>
             <Form>
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="See All" onClick={()=>{setShow({...show,showAll: !show.showAll})}}/>
+                <Form.Check type="checkbox" label="See All" onClick={()=>{setShow({...show,showAll: !show.showAll,details:false})}}/>
             </Form.Group>
             </Form>
             <OrderContext.Provider value={{orders, selected, show, setShow, setSelect, setOrders, setMethod}}>
@@ -120,7 +121,7 @@ export default function OrderPane(){
                         <td><h5>Ordered date</h5></td>
                         <td><h5>Shipped date</h5></td>
                         <td><h5>Status</h5></td>
-                        <td><h5>Comments</h5></td>
+                        <td className='w-25'><h5>Comments</h5></td>
                         </tr>
                     </thead>
                     <tbody>
