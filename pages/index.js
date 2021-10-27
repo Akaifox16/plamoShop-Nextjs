@@ -2,7 +2,7 @@ import axios from 'axios'
 import { execOnce } from 'next/dist/shared/lib/utils'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Container, Row, Col, Card, Navbar, Button, ListGroup, ListGroupItem} from 'react-bootstrap'
+import { Container, Row, Col, Card, Navbar, Button, ListGroup, ListGroupItem, Badge} from 'react-bootstrap'
 
 const BaseUrl = "http://127.0.0.1:8000/api"
 function EmployeeLogin(){
@@ -27,6 +27,8 @@ function EmployeeLogin(){
 
 export default function App(){
   const [catalogs,setCatalogs] = useState([])
+  const [carts,setCarts] = useState([])
+
   const fetch = async () =>{
     axios.get(`${BaseUrl}/catalog`).then(res=>{setCatalogs(res.data)})
   }
@@ -42,9 +44,9 @@ export default function App(){
             </Container>
     </Navbar>
     
-    <Button variant="primary" size="lg" onClick={()=>{
+    <Button variant="success" size="lg" onClick={()=>{
       console.log("create new order")
-    }}>Create New</Button>
+    }}>Cart <Badge pill bg='danger'>{carts.reduce((sum)=>sum +1 ,0)}</Badge></Button>
 
     <table>
         <tbody>
@@ -65,10 +67,13 @@ export default function App(){
                   <ListGroupItem> Quantity {catalog.quantityInStock}</ListGroupItem>
                 </ListGroup>
                   <Card.Body>
-                  <Button variant="primary">Add to cart</Button>
+                  <Button variant="primary" onClick={e=>{
+                    if(!carts.includes(catalog.productName)){
+                      setCarts([...carts,catalog.productName])
+                    }
+                  }}>Add to cart</Button>
                   </Card.Body>
                 
-                 
               </Card>)
           })
           }
