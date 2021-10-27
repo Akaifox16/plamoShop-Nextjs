@@ -7,6 +7,7 @@ import CustomersList from '../../components/CustomersList'
 import Employeelist from '../../components/EmployeeMgmt'
 import Submitpayment from '../../components/Submitpayment'
 import StockInList from '../../components/stock/StockInList'
+import ProductList from '../../components/product/ProductList'
 
 export const UserContext = createContext({})
 
@@ -76,7 +77,7 @@ export default function Address(){
                             <StockInList />
                         </Tab.Pane>
                         <Tab.Pane eventKey="#product">
-
+                            <ProductList />
                         </Tab.Pane>
                         <Tab.Pane eventKey="#promote">
                             {user.jobTitle === "VP Sales" && <Employeelist />}

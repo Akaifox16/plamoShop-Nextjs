@@ -1,7 +1,10 @@
+import axios from 'axios'
+import { execOnce } from 'next/dist/shared/lib/utils'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Container, Row, Col, Card, Navbar, Button} from 'react-bootstrap'
+import { Container, Row, Col, Card, Navbar, Button, ListGroup, ListGroupItem} from 'react-bootstrap'
 
+const BaseUrl = "http://127.0.0.1:8000/api"
 function EmployeeLogin(){
     const [token,setToken] = useState(null)
     function fetch() {
@@ -25,7 +28,7 @@ function EmployeeLogin(){
 export default function App(){
   const [catalogs,setCatalogs] = useState([])
   const fetch = async () =>{
-    
+    axios.get(`${BaseUrl}/catalog`).then(res=>{setCatalogs(res.data)})
   }
   useEffect(fetch,[])
   
@@ -45,20 +48,32 @@ export default function App(){
 
     <table>
         <tbody>
+        <div classname = "g=4">
+        <Row xs="auto" md={4} className="g-4">
           {catalogs.map(catalog => {
             return (<Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src="holder.js/100px180" />
                 <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
+                  <Card.Title>{catalog.productName}</Card.Title>
                   <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
+                    
                   </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
+                  </Card.Body>
+                  
+                <ListGroup className = "show">
+                  <ListGroupItem> Price {catalog.buyPrice}</ListGroupItem>
+                  <ListGroupItem> Quantity {catalog.quantityInStock}</ListGroupItem>
+                </ListGroup>
+                  <Card.Body>
+                  <Button variant="primary">Add to cart</Button>
+                  </Card.Body>
+                
+                 
               </Card>)
           })
           }
+          </Row>
+          </div>
         </tbody>
     </table>
   </>)
