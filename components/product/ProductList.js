@@ -30,7 +30,7 @@ export default function ProductList(){
         <Row xs="auto" md={4} className="g-4">
         {catalogs.map((c) => (
             <Col key={c.productCode}>
-            <Card border="info" style={{ width: '18rem' }}>
+            <Card  border="warning" style={{ width: '18rem' }}>
                 <Card.Body>
                 <Card.Title>{c.productName}</Card.Title>
                 <Card.Text>

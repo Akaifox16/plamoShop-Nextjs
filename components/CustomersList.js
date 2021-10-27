@@ -1,15 +1,17 @@
 import { useState, useEffect, useContext, createContext } from 'react'
 import axios from 'axios'
-import {Card, Col, Row, ListGroup, ListGroupItem, Button} from 'react-bootstrap'
+import {Card, Col, Row, ListGroup, ListGroupItem, Button, Offcanvas} from 'react-bootstrap'
 import CustomerTab from './CustomerTab'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 import { UserContext } from '../pages/user/[id]'
+import AddCustomerForm from './AddCustomerForm'
 export const CustomerContext = createContext()
 
 export default function CustomersList(){
     const [customers,setCustomers] = useState([])
     const [customer,setCustomer] = useState(null)
+    const [show,setShow] = useState(false)
     const btnText = {selected: 'selected',select: 'select'}
     const user = useContext(UserContext)
 
@@ -25,7 +27,10 @@ export default function CustomersList(){
     },[customer])
 
     return (<div className='m-4'>
-        <h3> This is yours customers</h3>
+        <Row>
+        <Col sm={8}><h3> This is yours customers</h3></Col>
+        <Col sm={4}><Button variant="success" size='lg' onClick={()=>{setShow(true)}}>New Customer</Button></Col>
+        </Row>
         <hr />
         <Row xs="auto" md={4} className="g-4">
         {customers.map((c) => (
@@ -55,10 +60,20 @@ export default function CustomersList(){
         ))}
         </Row>
         <hr/>
-        <CustomerContext.Provider value={{customer,setCustomer}}>
+        <CustomerContext.Provider value={{customer, customers, show, setCustomer, setCustomers, setShow}}>
         {
             customer && <CustomerTab />
         }
+        <Offcanvas show={show} onHide={()=>{
+                setShow(false)
+            }} placement='start' className='w-25'>
+            <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Add Customer</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <AddCustomerForm/>
+                </Offcanvas.Body>
+        </Offcanvas>
         </CustomerContext.Provider>
     </div>)
 }

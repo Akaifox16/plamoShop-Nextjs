@@ -76,8 +76,6 @@ export default function ProductEditForm() {
                     }}/>
                     </Form.Group>
                     
-
-
                 </Row>
 
                 <Row className="mb-3">
