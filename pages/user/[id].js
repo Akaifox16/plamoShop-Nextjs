@@ -7,7 +7,7 @@ import CustomersList from '../../components/CustomersList'
 import Employeelist from '../../components/EmployeeMgmt'
 import Submitpayment from '../../components/Submitpayment'
 import StockInList from '../../components/stock/StockInList'
-import StockInList from '../../components/product/ProductList'
+import ProductList from '../../components/product/ProductList'
 
 export const UserContext = createContext({})
 
