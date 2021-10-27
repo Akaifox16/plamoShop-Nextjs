@@ -21,7 +21,14 @@ export default function ProductPane(){
 
     const [selected,setSelect] = useState({
         productCode: catalog.productCode,
-        quantityInStock: 0})
+        productName:"",
+        productLine:"",
+        productScale:"",
+        productVendor:"",
+        productDescription:"",
+        quantityInStock: 0,
+        buyPrice: 0,
+        MSRP: 0})
     const [method,setMethod] = useState()
     const [show, setShow] = useState(false);
 
@@ -36,9 +43,10 @@ export default function ProductPane(){
         localStorage.setItem('products',JSON.stringify(products))
     },[products])
 
-
-
-
+    const del = (id)=>{
+        axios.delete(`${baseURL}/product/del/${id}`)
+        .then(res => {setproducts(products.filter(product=> product.productCode != res.data.data.productCode ))})
+    }
 
     return (
         <div>

@@ -55,18 +55,7 @@ export default function StockPane() {
                                 <td>{c.qty}</td>
                                 <td>{c.created_at}</td>
                                 <td>{c.updated_at}</td>
-                                <td><Button variant="success" onClick={
-                                    ()=>{
-                                        setShow(true)
-                                        setMethod('Edit')
-                                        setSelect({
-                                            ...selected,
-                                            productCode: c.productCode,
-                                            qty: c.qty,
-                                            created_at: c.created_at,
-                                            updated_at: c.updated_at
-                                        })
-                                }} >Edit</Button></td>
+                                
                             </tr>
                         )
                     })
