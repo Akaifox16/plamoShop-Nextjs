@@ -24,7 +24,12 @@ export default function Preorder() {
         if(sessCart){
             setpreorderCarts(JSON.parse(sessCart))
         }
-      },[])
+    },[])
+
+    useEffect(()=>{
+        sessionStorage.setItem('preordercarts',JSON.stringify(preordercarts))
+    },[preordercarts])
+
     useEffect(()=>{
         localStorage.setItem('catalogs',JSON.stringify(catalogs))
     },[catalogs])
@@ -32,9 +37,6 @@ export default function Preorder() {
         localStorage.setItem('catalog',JSON.stringify(catalog))
     },[catalog])
     
-
-
-
     return (<>
         <Navbar bg="dark" variant="dark">
             <Container>
@@ -59,10 +61,10 @@ export default function Preorder() {
 
                 </Card.Text>
                 <Button variant="primary" onClick={e=>{
-                      if(!preordercarts.includes(catalog.productName)){
-                        setpreorderCarts([...preordercarts,{  productName:catalog.productName,
-                                              productCode:catalog.productCode,
-                                              MSRP:catalog.MSRP}])
+                      if(!preordercarts.includes(c.productName)){
+                        setpreorderCarts([...preordercarts,{  productName:c.productName,
+                                              productCode:c.productCode,
+                                              MSRP:c.MSRP}])
                       }}
                     }>Add to cart</Button>
 
