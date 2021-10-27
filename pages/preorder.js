@@ -62,9 +62,10 @@ export default function Preorder() {
                 </Card.Text>
                 <Button variant="primary" onClick={e=>{
                       if(!preordercarts.includes(c.productName)){
-                        setpreorderCarts([...preordercarts,{  productName:c.productName,
-                                              productCode:c.productCode,
-                                              MSRP:c.MSRP}])
+                        setpreorderCarts([...preordercarts,{  
+                                            productName:c.productName,
+                                            productCode:c.productCode,
+                                            MSRP:c.MSRP}])
                       }}
                     }>Add to cart</Button>
 

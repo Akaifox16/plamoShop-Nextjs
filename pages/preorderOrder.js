@@ -47,7 +47,7 @@ export default function preorderOrder(){
                             <Form.Group key={preordercart.productName} controlId="formGridQty">
                                 <Form.Control onChange={e=>{
                                     const dat = preorderdata.preorder.filter(d=>{return d.productCode !== preordercart.productCode})
-                                    setpreorderData({...preorderdata, preorder: [...dat,{orderDate:preordercart.orderDate,customerNumber:preordercart.customerNumber,productCode:preordercart.productCode,preorderQuantity:e.target.value}]})
+                                    setpreorderData({...preorderdata, preorder: [...dat,{productCode:preordercart.productCode,preorderQuantity:e.target.value}]})
                                 }}/>        
                             </Form.Group>
                             </td>
