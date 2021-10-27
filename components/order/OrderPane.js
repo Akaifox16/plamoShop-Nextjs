@@ -8,6 +8,7 @@ import OrderEditForm from "./OrderEditForm";
 
 import { CustomerContext } from "../CustomersList";
 import OrderDetails from "./OrderDetails";
+import AddressShippedForm from "../address/AddressShippedForm";
 export const OrderContext = createContext()
 
 function OrderTableRow(props) {
@@ -56,8 +57,8 @@ function OrderTableRow(props) {
                     .then(res=>{
                         axios.patch(`${baseURL}/product/updateList`,res.data)
                         .then(res=>{
-                            axios.patch(`${orderURL}/update/${order.orderNumber}`, {status: 'Shipped'})
-                            .catch(err=>{console.error()})
+                            setShow({...show,addrCanvas:true})
+                            setSelect(order)
                         })
                         .catch(err=>{console.error()})
                     })
@@ -75,7 +76,7 @@ function OrderTableRow(props) {
 
 export default function OrderPane(){
     const {customer} = useContext(CustomerContext)
-    const [show, setShow] = useState({editCanvas:false,showAll:false,details:false})
+    const [show, setShow] = useState({editCanvas:false,addrCanvas:false,showAll:false,details:false})
     const [orders, setOrders] = useState([])
     const [selected,setSelect] = useState({
         customerNumber: customer.customerNumber,
@@ -166,7 +167,18 @@ export default function OrderPane(){
                     <Offcanvas.Title>{method} order</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    {method && method == 'Edit' ? <OrderEditForm />:"Can't wait to create new order"}
+                    <OrderEditForm />
+                </Offcanvas.Body>
+            </Offcanvas>
+
+            <Offcanvas show={show.addrCanvas} onHide={()=>{
+                setShow({...show,addrCanvas:false})
+            }} placement='bottom' className='h-auto'>
+                <Offcanvas.Header>
+                    <Offcanvas.Title>Shipped Address</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <AddressShippedForm />
                 </Offcanvas.Body>
             </Offcanvas>
             </OrderContext.Provider>
