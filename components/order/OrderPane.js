@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Table, Button, Offcanvas, Form } from "react-bootstrap";
 const orderURL = 'http://127.0.0.1:8000/api/order'
+const baseURL = 'http://127.0.0.1:8000/api'
 
 import OrderEditForm from "./OrderEditForm";
 
@@ -49,6 +50,20 @@ function OrderTableRow(props) {
                 <Button variant="success" disabled >Edit</Button>
                 }
                 {' '}
+                <Button variant="warning" disabled={isNotDoneOrder && isNotDoneOrder(order.status) ? false:true} onClick={e=>{
+                    e.preventDefault()
+                    axios.get(`${orderURL}/get-details/${order.orderNumber}`)
+                    .then(res=>{
+                        axios.patch(`${baseURL}/product/updateList`,res.data)
+                        .then(res=>{
+                            axios.patch(`${orderURL}/update/${order.orderNumber}`, {status: 'Shipped'})
+                            .catch(err=>{console.error()})
+                        })
+                        .catch(err=>{console.error()})
+                    })
+                    .catch(err=>{console.error()})
+                }}> Shipped </Button>
+                {' '}
                 <Button variant='info' onClick={()=>{
                     setSelect(order)
                     toggleDetails()
@@ -72,7 +87,7 @@ export default function OrderPane(){
         paymentNumber: ""
     })
     const [method,setMethod] = useState()
-    const unDoneStatus = ['In Process','On Hold']
+    const unDoneStatus = ['In Process','On Hold','Disputed']
 
     const fetchOrders = ()=>{
         axios.get(`${orderURL}/${customer.customerNumber}`)

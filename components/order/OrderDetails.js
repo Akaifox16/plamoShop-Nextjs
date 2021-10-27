@@ -51,6 +51,7 @@ export default function OrderDetails(){
                 }
             </tbody>
             <tfoot>
+                <tr>
                 <td>Total</td>
                 <td></td>
                 <td></td>
@@ -60,12 +61,20 @@ export default function OrderDetails(){
                     .reduce(total,0).toFixed(2)
                 }
                 </td>
+                </tr>
+                {selected.paymentNumber && <tr>
+                    <td>Points</td>
+                    <td></td>
+                    <td></td>
+                    <td>{ parseInt(orderDetails.map(od => {return Number(od.quantityOrdered) * Number(od.priceEach)})
+                    .reduce(total,0).toFixed(2) /100) }</td>
+                </tr>}
             </tfoot>
         </Table>
             <Row>
                 <Col sm={10}><h4>Payment No.</h4></Col>
                 <Col sm={2}>{selected.paymentNumber ? 
-                <p>{selected.paymentNumber}</p> : 
+                <h5>{selected.paymentNumber}</h5> : 
                 <Button onClick={e => {
                     setMethod('Add')
                     setShow({...show,addCanvas:true})
