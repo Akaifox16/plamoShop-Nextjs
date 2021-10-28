@@ -9,7 +9,7 @@ import ProductEditForm from './ProductEditForm'
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function ProductPane(){
-    const {catalog} = useContext(ProductContext)
+    const {catalog, catalogs, setcatalogs} = useContext(ProductContext)
     const [products, setproducts] = useState([])
 
     const fetch = () =>{
@@ -111,7 +111,7 @@ export default function ProductPane(){
                 setMethod('Add')
             }
         }>Add</Button>
-        <ProductPaneContext.Provider value={{products,selected,setShow,setSelect,setproducts}}>
+        <ProductPaneContext.Provider value={{products,selected,catalogs, setcatalogs,setShow,setSelect,setproducts}}>
             <Offcanvas show={show} onHide={()=>{
                 setShow(false)
                 setMethod()

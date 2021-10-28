@@ -6,9 +6,9 @@ import { ProductPaneContext } from "./ProductPane";
 const baseURL = 'http://127.0.0.1:8000/api'
 
 export default function ProductAddForm() {
-    const {selected, setSelect, setproducts} = useContext(ProductPaneContext)
-    const [no,setNo] = useState()
-    const [submit,setSubmit] = useState(false)
+    const {catalogs, selected, setSelect, setcatalogs} = useContext(ProductPaneContext)
+    // const [no,setNo] = useState()
+    // const [submit,setSubmit] = useState(false)
 
 
     const submitHandler = (e) => {
@@ -19,8 +19,8 @@ export default function ProductAddForm() {
         .then(()=>{
             axios.get(`${baseURL}/stock/${selected.productCode}`)
             .then(res=>{
-                setproducts(res.data.product)
-                setSubmit(true)
+                setcatalogs([...catalogs,res.data.product[0]])
+                // setSubmit(true)
             })
             .catch(err=>{console.error();})
         })

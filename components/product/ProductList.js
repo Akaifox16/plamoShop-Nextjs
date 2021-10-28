@@ -53,7 +53,7 @@ export default function ProductList(){
         ))}
         </Row>
         <hr/>
-        <ProductContext.Provider value={{catalog}}>
+        <ProductContext.Provider value={{catalog, catalogs, setcatalogs}}>
         {
             catalog && <ProductPane />
         }
