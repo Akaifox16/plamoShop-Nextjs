@@ -41,7 +41,7 @@ export default function App(){
         <tbody>
         <div classname = "g=4">
         <Row xs="auto" md={6} className="g-4">
-          {catalogs.map(catalog => {
+          {catalogs.filter(catalog=> {return catalog.quantityInStock != 0}).map(catalog => {
             return ( 
               <Col key={catalog.productNumber}>
               <Card key={catalog.productName} className="h-100">
@@ -53,7 +53,7 @@ export default function App(){
                     <ListGroupItem> Quantity {catalog.quantityInStock}</ListGroupItem>
                   </ListGroup>
                     <Button variant="primary" onClick={e=>{
-                      if(!carts.includes(catalog.productName)){
+                      if(!carts.includes(catalog.productCode)){
                         setCarts([...carts,{  productName:catalog.productName,
                                               productCode:catalog.productCode,
                                               MSRP:catalog.MSRP}])
